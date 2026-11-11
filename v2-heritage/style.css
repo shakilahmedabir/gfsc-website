@@ -1,0 +1,47 @@
+/* Version 2 — HERITAGE: calm editorial design (like top UK / US independent schools).
+   Cream paper background, serif headings, big real photo, thin rules, numbered timeline journey. */
+.v-heritage{--radius:6px;--head:"Fraunces",Georgia,var(--font);--bg:#FBF7EF;--surface:#FFFDF8;--line:#E8DFCC;--shadow:0 1px 0 rgba(0,0,0,.04)}
+[data-mode=dark] .v-heritage,[data-mode=dark].v-heritage{--bg:#14120d;--surface:#1d1a13;--line:#3a3426}
+:lang(bn) .v-heritage,:lang(ar) .v-heritage,:lang(bn).v-heritage,:lang(ar).v-heritage{--head:var(--font)}
+.v-heritage .nav{background:var(--surface)}
+.v-heritage .menu a{border-radius:0;border-bottom:2px solid transparent}
+.v-heritage .menu a.on{background:transparent;color:var(--p);border-bottom-color:var(--a)}
+[data-mode=dark] .v-heritage .menu a.on{color:var(--a)}
+.v-heritage .btn{border-radius:4px;letter-spacing:.02em}
+.v-heritage .hero{background:var(--bg);color:var(--ink)}
+.v-heritage .hero canvas.fx{opacity:.0}
+.v-heritage .hero-in{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:64px 20px}
+.v-heritage .kicker{color:var(--p);opacity:1}
+[data-mode=dark] .v-heritage .kicker{color:var(--a)}
+.v-heritage .hero h1{font-size:clamp(40px,5.6vw,76px);font-weight:600;color:var(--p)}
+[data-mode=dark] .v-heritage .hero h1{color:var(--ink)}
+.v-heritage .lead{color:var(--muted);border-inline-start:3px solid var(--a);padding-inline-start:16px}
+.v-heritage .btn-ghost{color:var(--p)}
+[data-mode=dark] .v-heritage .btn-ghost{color:var(--ink)}
+.v-heritage .month-chip{background:color-mix(in srgb,var(--a) 15%,transparent);border-color:var(--line);color:var(--ink)}
+.v-heritage .h-photo{margin:0;position:relative}
+.v-heritage .h-photo img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--line)}
+.v-heritage .h-photo::before{content:"";position:absolute;inset:18px -18px -18px 18px;border:2px solid var(--a);z-index:-1}
+.v-heritage .h-photo figcaption{position:absolute;inset-inline-start:-24px;bottom:28px;background:var(--p);color:var(--on-p);padding:14px 18px;max-width:75%;font-family:var(--head);font-size:17px}
+.v-heritage .stats{margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);gap:0}
+.v-heritage .stat{border:0;border-inline-end:1px solid var(--line);border-radius:0;box-shadow:none;background:transparent;padding:26px 8px}
+.v-heritage .stat:last-child{border-inline-end:0}
+.v-heritage .stat b{font-size:40px;font-weight:600}
+.v-heritage .sh{border-top:3px solid var(--p);padding-top:14px}
+[data-mode=dark] .v-heritage .sh{border-top-color:var(--a)}
+.v-heritage .sh h2{font-weight:600}
+.v-heritage .card{box-shadow:none}
+.v-heritage .why{grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-inline-start:1px solid var(--line)}
+.v-heritage .why .card{border-radius:0;border-top:0;border-inline-start:0}
+.v-heritage .emo{font-size:26px}
+.v-heritage .journey{grid-template-columns:1fr;gap:0;position:relative}
+.v-heritage .journey li{display:grid;grid-template-columns:70px 1fr;gap:18px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:22px 0}
+.v-heritage .jn{width:56px;height:56px;font-family:var(--head);font-size:24px;background:transparent;border:2px solid var(--a);color:var(--p)}
+[data-mode=dark] .v-heritage .jn{color:var(--ink)}
+.v-heritage .journey h3{font-size:26px}
+.v-heritage .notices li{border-radius:0;border:0;border-bottom:1px solid var(--line);border-inline-start:0;background:transparent;padding:16px 0}
+.v-heritage .leaders .ld img{border-radius:0;width:100%;height:auto;aspect-ratio:1;border:0}
+.v-heritage .gallery img,.v-heritage .events .ev img{border-radius:0}
+.v-heritage .footer{background:var(--p);color:var(--on-p)}
+.v-heritage .ft h4{color:inherit}
+@media (max-width:900px){.v-heritage .hero-in{grid-template-columns:1fr}.v-heritage .why{grid-template-columns:1fr}.v-heritage .stat{border-inline-end:0;border-bottom:1px solid var(--line)}}

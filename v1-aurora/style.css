@@ -1,0 +1,33 @@
+/* Version 1 — AURORA: modern glass design for the new generation.
+   Big gradient hero with floating photo stack, glass cards, rounded 26px corners, bold "Sora" headings. */
+.v-aurora{--radius:26px;--head:"Sora",var(--font)}
+:lang(bn).v-aurora,:lang(ar).v-aurora{--head:var(--font)}
+.v-aurora .hero{min-height:640px;display:flex;align-items:center;
+  background:radial-gradient(1200px 600px at 85% 10%,color-mix(in srgb,var(--s) 55%,transparent),transparent 60%),
+             radial-gradient(900px 600px at 0% 100%,color-mix(in srgb,var(--a) 40%,transparent),transparent 60%),
+             linear-gradient(140deg,var(--p),color-mix(in srgb,var(--p) 80%,#000))}
+.v-aurora .hero-in{display:grid;grid-template-columns:1.15fr .85fr;gap:20px 40px;align-items:center;width:100%}
+.v-aurora .hero-in>*:not(.h-cards){grid-column:1}
+.v-aurora .hero h1{font-size:clamp(40px,6.4vw,84px);letter-spacing:-.02em;background:linear-gradient(90deg,#fff,color-mix(in srgb,var(--a) 70%,#fff));-webkit-background-clip:text;background-clip:text;color:transparent}
+.v-aurora[data-x] .hero h1{color:#fff}
+.v-aurora .h-cards{grid-column:2;grid-row:1/span 6;position:relative;height:460px}
+.v-aurora .h-cards img{position:absolute;width:62%;aspect-ratio:3/4;object-fit:cover;border-radius:24px;border:6px solid rgba(255,255,255,.85);box-shadow:0 30px 60px rgba(0,0,0,.35);background:rgba(255,255,255,.2);animation:float 7s ease-in-out infinite}
+.v-aurora .h-cards img:nth-child(1){inset-inline-start:0;top:30px;rotate:-7deg}
+.v-aurora .h-cards img:nth-child(2){inset-inline-end:0;top:0;rotate:6deg;animation-delay:-2s;z-index:2}
+.v-aurora .h-cards img:nth-child(3){inset-inline-start:22%;bottom:-10px;rotate:-2deg;animation-delay:-4s;z-index:3;width:56%}
+@keyframes float{50%{translate:0 -12px}}
+.v-aurora .stats{margin-top:-46px}
+.v-aurora .stat{background:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(16px);border-color:color-mix(in srgb,var(--p) 18%,var(--line))}
+.v-aurora .stat b{background:linear-gradient(90deg,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-mode=dark] .v-aurora .stat b,[data-mode=dark].v-aurora .stat b{background:linear-gradient(90deg,var(--a),#fff);-webkit-background-clip:text;background-clip:text}
+.v-aurora .card{transition:transform .25s,box-shadow .25s}
+.v-aurora .card:hover{transform:translateY(-6px);box-shadow:0 24px 50px color-mix(in srgb,var(--p) 25%,transparent)}
+.v-aurora .why .card{background:linear-gradient(160deg,color-mix(in srgb,var(--p) 7%,var(--surface)),var(--surface))}
+.v-aurora .emo{width:56px;height:56px;display:grid;place-items:center;border-radius:18px;background:color-mix(in srgb,var(--a) 22%,transparent)}
+.v-aurora .sec.alt{background:linear-gradient(180deg,color-mix(in srgb,var(--p) 6%,var(--bg)),var(--bg))}
+.v-aurora .journey li{background:linear-gradient(160deg,var(--surface),color-mix(in srgb,var(--a) 10%,var(--surface)))}
+.v-aurora .menu a.on{background:linear-gradient(90deg,var(--p),color-mix(in srgb,var(--p) 60%,var(--s)))}
+.v-aurora .gallery{grid-template-columns:repeat(4,1fr)}
+.v-aurora .gallery a:nth-child(1){grid-column:span 2;grid-row:span 2}
+.v-aurora .gallery a:nth-child(1) img{aspect-ratio:auto;height:100%}
+@media (max-width:900px){.v-aurora .hero-in{grid-template-columns:1fr}.v-aurora .h-cards{grid-column:1;grid-row:auto;height:300px}.v-aurora .gallery{grid-template-columns:repeat(2,1fr)}}

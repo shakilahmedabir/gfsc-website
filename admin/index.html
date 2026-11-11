@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>GFSC Website Editor</title>
+<link rel="icon" href="../shared/gfsc_logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--p:#2E3192;--r:#ED1C24;--o:#F7941D;--bg:#f4f5fb;--card:#fff;--ink:#14162b;--muted:#5a5e7d;--line:#dfe1ee;--field:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#0d0f1e;--card:#171a31;--ink:#eef0ff;--muted:#a9adcf;--line:#2c3052;--field:#0b0d1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri","Plus Jakarta Sans",system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:10px 18px;background:var(--p);color:#fff;flex-wrap:wrap}
+header img{width:40px}header h1{font-size:18px;margin:0}header small{opacity:.8}
+.hb{margin-inline-start:auto;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:12px;padding:10px 16px;font-weight:800;cursor:pointer;background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn.p{background:var(--o);color:#1d1f3a;border-color:var(--o)}.btn.g{background:#16a34a;color:#fff;border-color:#16a34a}.btn.r{background:var(--r);color:#fff;border-color:var(--r)}
+.btn.sm{padding:5px 10px;font-size:13px;border-radius:9px}
+.wrap{max-width:1200px;margin:0 auto;padding:18px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+nav.tabs button{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 16px;font-weight:800;cursor:pointer}
+nav.tabs button.on{background:var(--p);color:#fff;border-color:var(--p)}
+.grid{display:grid;grid-template-columns:1fr 1.1fr;gap:16px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.list{display:grid;gap:8px;max-height:72vh;overflow:auto}
+.item{display:flex;gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.item.on{outline:3px solid var(--o)}
+.item img{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none;background:var(--line)}
+.item .t{flex:1;min-width:0}.item .t b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.item .t small{color:var(--muted)}
+.item .a{display:flex;gap:4px}
+label{display:grid;gap:4px;font-weight:700;font-size:14px;margin-bottom:10px}
+label small{font-weight:400;color:var(--muted)}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--field);color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--o);box-shadow:0 0 0 3px rgba(247,148,29,.3)}
+.langs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.langs label{margin:0}
+fieldset{border:1.5px dashed var(--line);border-radius:12px;padding:10px 12px;margin:0 0 10px}
+legend{font-weight:800;padding:0 6px}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin:8px 0}
+.photos div{position:relative}.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
+.photos button{position:absolute;top:3px;inset-inline-end:3px;border:0;border-radius:50%;width:24px;height:24px;background:var(--r);color:#fff;cursor:pointer}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.note{font-size:13.5px;color:var(--muted);line-height:1.5}
+.toast{position:fixed;bottom:18px;left:50%;translate:-50% 0;background:#111;color:#fff;padding:12px 18px;border-radius:12px;font-weight:700;opacity:0;transition:.3s;z-index:9}
+.toast.show{opacity:1}
+dialog{border:0;border-radius:16px;padding:20px;max-width:520px;width:calc(100% - 24px);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+.badge{font-size:11px;font-weight:900;border-radius:6px;padding:1px 7px;background:var(--o);color:#1d1f3a}
+@media (max-width:860px){.grid{grid-template-columns:1fr}.langs{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><img src="../shared/gfsc_logo.png" alt=""><div><h1>GFSC ওয়েবসাইট এডিটর</h1><small>Notices · News · Albums · Teachers · Staff</small></div>
+ <div class="hb"><a class="btn sm" href="../index.html" target="_blank">🌐 ওয়েবসাইট দেখুন</a><button class="btn sm" id="ghBtn">⚙️ GitHub সংযোগ</button>
+ <button class="btn sm" id="dlBtn">⬇️ site-data.js ডাউনলোড</button><button class="btn sm g" id="pubBtn">🚀 Publish</button></div></header>
+<div class="wrap">
+ <nav class="tabs" id="tabs"></nav>
+ <div class="grid"><div class="card"><div class="row" style="justify-content:space-between;margin-bottom:10px"><b id="listTitle"></b><button class="btn p sm" id="addBtn">＋ নতুন যোগ করুন</button></div><div class="list" id="list"></div></div>
+ <div class="card" id="editor"><p class="note">বাম পাশ থেকে একটি আইটেম বেছে নিন, অথবা “নতুন যোগ করুন” চাপুন।</p></div></div>
+ <p class="note" id="status"></p>
+</div>
+<dialog id="ghDlg"><form method="dialog">
+ <h3 style="margin-top:0">GitHub সংযোগ (এক বার সেট করুন)</h3>
+ <p class="note">Publish চাপলে পরিবর্তন সরাসরি GitHub Pages ওয়েবসাইটে চলে যাবে। টোকেন শুধু এই কম্পিউটারের ব্রাউজারে থাকে।</p>
+ <label>Owner (GitHub username)<input id="ghOwner" placeholder="shakilahmedabir"></label>
+ <label>Repository<input id="ghRepo" placeholder="gfsc-website"></label>
+ <label>Branch<input id="ghBranch" placeholder="main"></label>
+ <label>Token <small>(Fine-grained token — Contents: Read and write)</small><input id="ghToken" type="password" autocomplete="off"></label>
+ <div class="row"><button class="btn p" value="save">সেভ</button><button class="btn" value="cancel">বাতিল</button><button class="btn r sm" value="clear" id="ghClear">টোকেন মুছুন</button></div>
+</form></dialog>
+<div class="toast" id="toast"></div>
+
+<script src="../shared/site-data.js"></script>
+<script>
+const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const D=JSON.parse(JSON.stringify(window.SITE_DATA||{notices:[],posts:[],albums:[],teachers:[],staff:[]}));
+for(const k of ['notices','posts','albums','teachers','staff']) D[k]=D[k]||[];
+let dirty=false; const mark=()=>{dirty=true; $('#status').textContent='⚠️ সেভ করা হয়নি — “Publish” বা “ডাউনলোড” চাপুন।';};
+addEventListener('beforeunload',e=>{ if(dirty){ e.preventDefault(); e.returnValue=''; } });
+const toast=m=>{const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600);};
+const today=()=>new Date().toISOString().slice(0,10);
+const LANGS=[['bn','বাংলা'],['en','English'],['ar','العربية (ঐচ্ছিক)'],['de','Deutsch (ঐচ্ছিক)']];
+const DEPTS=['','English','Bangla','ICT','Mathematics','Science','Business Studies','Humanities'];
+
+/* ---- what each section looks like ---- */
+const TABS={
+ notices:{name:'📢 নোটিশ',title:x=>x.title?.bn||x.title?.en,sub:x=>x.date+(x.pin?' · 📌 পপ-আপ':''),
+   blank:()=>({date:today(),pin:false,file:'',title:{bn:'',en:'',ar:'',de:''}}),
+   fields:[['date','তারিখ','date'],['title','শিরোনাম','ml'],['file','PDF / লিংক (ঐচ্ছিক)','url'],['pin','ওয়েবসাইট খুললেই পপ-আপ দেখাবে','check']]},
+ posts:{name:'📰 খবর / স্ট্যাটাস / পোস্ট',title:x=>x.title?.bn||x.title?.en,sub:x=>`${x.date} · ${x.type}`,img:x=>x.img,
+   blank:()=>({date:today(),type:'news',img:'',link:'',title:{bn:'',en:'',ar:'',de:''},body:{bn:'',en:'',ar:'',de:''}}),
+   fields:[['type','ধরন','select',['news','status','post']],['date','তারিখ','date'],['title','শিরোনাম','ml'],['body','বিস্তারিত লেখা','mlarea'],['img','ছবি','image'],['link','আরও পড়ুন লিংক (ঐচ্ছিক)','url']]},
+ albums:{name:'🖼️ অ্যালবাম / গ্যালারি',title:x=>x.title?.bn||x.title?.en,sub:x=>`${x.year||''} · ${x.photos?.length||0} ছবি`,img:x=>x.photos?.[0],
+   blank:()=>({id:'album-'+Date.now(),year:String(new Date().getFullYear()),title:{bn:'',en:'',ar:'',de:''},about:{bn:'',en:''},source:'',photos:[]}),
+   fields:[['title','অ্যালবামের আকর্ষণীয় নাম','ml'],['year','বছর','text'],['about','বিবরণ','mlarea'],['photos','ছবিসমূহ','photos'],['source','মূল পোস্টের লিংক (ঐচ্ছিক)','url']]},
+ teachers:{name:'👩‍🏫 শিক্ষক',title:x=>x.name,sub:x=>`${x.desig}${x.dept?' · '+x.dept:''}`,img:x=>x.photo?(x.photo.startsWith('http')?x.photo:'../shared/'+x.photo):'',
+   blank:()=>({name:'',desig:'Assistant Teacher',dept:'',roles:[],qual:[],photo:''}),
+   fields:[['name','নাম (ইংরেজিতে)','text'],['desig','পদবি','text'],['dept','বিভাগ','select',DEPTS],['roles','দায়িত্ব (প্রতি লাইনে একটি)','lines'],['qual','শিক্ষাগত যোগ্যতা (প্রতি লাইনে একটি)','lines'],['photo','ছবি','image']]},
+ staff:{name:'🧑‍💼 স্টাফ',title:x=>x.name,sub:x=>x.desig,img:x=>x.photo?(x.photo.startsWith('http')?x.photo:'../shared/'+x.photo):'',
+   blank:()=>({name:'',desig:'',dept:'',roles:[],qual:[],photo:''}),
+   fields:[['name','নাম','text'],['desig','পদবি','text'],['photo','ছবি','image']]}
+};
+let tab='notices', sel=-1;
+$('#tabs').innerHTML=Object.entries(TABS).map(([k,v])=>`<button data-t="${k}">${v.name} <span class="badge">${D[k].length}</span></button>`).join('');
+$('#tabs').onclick=e=>{const b=e.target.closest('button'); if(b){tab=b.dataset.t; sel=-1; draw();}};
+function draw(){
+  document.querySelectorAll('#tabs button').forEach(b=>{b.classList.toggle('on',b.dataset.t===tab); b.querySelector('.badge').textContent=D[b.dataset.t].length;});
+  const T=TABS[tab]; $('#listTitle').textContent=T.name;
+  $('#list').innerHTML=D[tab].map((x,i)=>`<div class="item ${i===sel?'on':''}" data-i="${i}">${T.img?`<img src="${esc(T.img(x)||'')}" alt="" onerror="this.style.visibility='hidden'">`:''}
+    <div class="t"><b>${esc(T.title(x)||'(শিরোনাম নেই)')}</b><small>${esc(T.sub(x))}</small></div>
+    <div class="a"><button class="btn sm" data-act="up" title="উপরে">↑</button><button class="btn sm" data-act="down" title="নিচে">↓</button><button class="btn sm" data-act="edit">✏️</button><button class="btn sm r" data-act="del">🗑</button></div></div>`).join('')||'<p class="note">এখনো কিছু নেই।</p>';
+  if(sel<0) $('#editor').innerHTML='<p class="note">বাম পাশ থেকে একটি আইটেম বেছে নিন, অথবা “নতুন যোগ করুন” চাপুন।</p>'; else editor();
+}
+$('#list').onclick=e=>{const it=e.target.closest('.item'); if(!it) return; const i=+it.dataset.i, act=e.target.closest('[data-act]')?.dataset.act||'edit', A=D[tab];
+  if(act==='del'){ if(confirm('এটি মুছে ফেলবেন?')){ A.splice(i,1); sel=-1; mark(); } }
+  else if(act==='up'&&i>0){ [A[i-1],A[i]]=[A[i],A[i-1]]; sel=i-1; mark(); }
+  else if(act==='down'&&i<A.length-1){ [A[i+1],A[i]]=[A[i],A[i+1]]; sel=i+1; mark(); }
+  else sel=i; draw(); };
+$('#addBtn').onclick=()=>{ D[tab].unshift(TABS[tab].blank()); sel=0; mark(); draw(); };
+
+/* ---- editor form ---- */
+function editor(){
+  const x=D[tab][sel], T=TABS[tab];
+  let h=`<h3 style="margin-top:0">✏️ ${esc(T.title(x)||'নতুন')}</h3>`;
+  for(const [k,lab,type,opts] of T.fields){
+    if(type==='ml'||type==='mlarea'){ x[k]=x[k]||{}; h+=`<fieldset><legend>${lab}</legend><div class="langs">${LANGS.map(([l,n])=>`<label>${n}${type==='ml'?`<input data-k="${k}" data-l="${l}" value="${esc(x[k][l]||'')}" ${l==='ar'?'dir="rtl"':''}>`:`<textarea rows="3" data-k="${k}" data-l="${l}" ${l==='ar'?'dir="rtl"':''}>${esc(x[k][l]||'')}</textarea>`}</label>`).join('')}</div><p class="note">আরবি/জার্মান খালি থাকলে ইংরেজি দেখাবে।</p></fieldset>`; }
+    else if(type==='check') h+=`<label style="display:flex;gap:8px;align-items:center"><input type="checkbox" data-k="${k}" ${x[k]?'checked':''} style="width:auto"> ${lab}</label>`;
+    else if(type==='select') h+=`<label>${lab}<select data-k="${k}">${opts.map(o=>`<option ${o===x[k]?'selected':''} value="${o}">${o||'—'}</option>`).join('')}</select></label>`;
+    else if(type==='lines') h+=`<label>${lab}<textarea rows="3" data-k="${k}" data-lines>${esc((x[k]||[]).join('\n'))}</textarea></label>`;
+    else if(type==='image') h+=`<label>${lab} <small>লিংক দিন, অথবা কম্পিউটার থেকে ছবি বাছুন (GitHub সংযোগ থাকলে আপলোড হবে)</small><input data-k="${k}" value="${esc(x[k]||'')}" placeholder="https://… বা people/নাম.jpg"></label><div class="row" style="margin:-4px 0 12px"><input type="file" accept="image/*" data-up="${k}" style="width:auto">${x[k]?`<img src="${esc(x[k].startsWith('http')?x[k]:'../shared/'+x[k])}" style="width:70px;height:70px;object-fit:cover;border-radius:10px">`:''}</div>`;
+    else if(type==='photos') h+=`<fieldset><legend>${lab} (${x.photos.length})</legend><div class="photos">${x.photos.map((p,i)=>`<div><img src="${esc(p)}" alt=""><button type="button" data-delph="${i}" title="মুছুন">×</button></div>`).join('')}</div>
+      <label>ছবির লিংক যোগ করুন <small>(একাধিক হলে প্রতি লাইনে একটি)</small><textarea rows="2" id="phUrls"></textarea></label><div class="row"><button class="btn sm" type="button" id="phAdd">＋ লিংক যোগ</button><input type="file" accept="image/*" multiple id="phFiles" style="width:auto"></div></fieldset>`;
+    else h+=`<label>${lab}<input type="${type==='date'?'date':'text'}" data-k="${k}" value="${esc(x[k]||'')}"></label>`;
+  }
+  $('#editor').innerHTML=h+'<p class="note">✅ পরিবর্তন সাথে সাথে তালিকায় যোগ হয়। শেষে উপরের “Publish” চাপুন।</p>';
+}
+$('#editor').addEventListener('input',e=>{ const el=e.target, k=el.dataset.k; if(!k) return; const x=D[tab][sel];
+  if(el.dataset.l) x[k][el.dataset.l]=el.value; else if(el.type==='checkbox') x[k]=el.checked; else if(el.hasAttribute('data-lines')) x[k]=el.value.split('\n').map(s=>s.trim()).filter(Boolean); else x[k]=el.value;
+  mark(); const it=document.querySelector(`.item[data-i="${sel}"] .t b`); if(it) it.textContent=TABS[tab].title(x)||'(শিরোনাম নেই)'; });
+$('#editor').addEventListener('change',async e=>{ const el=e.target;
+  if(el.dataset.up){ const f=el.files[0]; if(!f) return; const url=await uploadImage(f); if(url){ D[tab][sel][el.dataset.up]=url; mark(); editor(); } }
+  if(el.id==='phFiles'){ for(const f of el.files){ const url=await uploadImage(f); if(url) D[tab][sel].photos.push(url); } mark(); editor(); } });
+$('#editor').addEventListener('click',e=>{ const x=D[tab][sel];
+  if(e.target.id==='phAdd'){ $('#phUrls').value.split('\n').map(s=>s.trim()).filter(Boolean).forEach(u=>x.photos.push(u)); mark(); editor(); }
+  const d=e.target.closest('[data-delph]'); if(d){ x.photos.splice(+d.dataset.delph,1); mark(); editor(); } });
+
+/* ---- save: download file, or publish to GitHub ---- */
+const fileText=()=>`/* GFSC — EDITABLE WEBSITE DATA. Edited with admin/ on ${new Date().toLocaleString()} */\nwindow.SITE_DATA = ${JSON.stringify(D,null,1)};\n`;
+$('#dlBtn').onclick=()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([fileText()],{type:'text/javascript'})); a.download='site-data.js'; a.click(); dirty=false; $('#status').textContent='⬇️ ডাউনলোড হয়েছে — ফাইলটি website/shared/ ফোল্ডারে বদলে দিন।'; };
+const gh=()=>{ try{ return JSON.parse(localStorage.getItem('gfsc-gh')||'{}'); }catch(e){ return {}; } };
+$('#ghBtn').onclick=()=>{ const g=gh(); $('#ghOwner').value=g.owner||'shakilahmedabir'; $('#ghRepo').value=g.repo||'gfsc-website'; $('#ghBranch').value=g.branch||'main'; $('#ghToken').value=g.token||''; $('#ghDlg').showModal(); };
+$('#ghDlg').addEventListener('close',()=>{ const v=$('#ghDlg').returnValue;
+  if(v==='save'){ localStorage.setItem('gfsc-gh',JSON.stringify({owner:$('#ghOwner').value.trim(),repo:$('#ghRepo').value.trim(),branch:$('#ghBranch').value.trim()||'main',token:$('#ghToken').value.trim()})); toast('✅ GitHub সংযোগ সেভ হয়েছে'); }
+  if(v==='clear'){ localStorage.removeItem('gfsc-gh'); toast('টোকেন মুছে ফেলা হয়েছে'); } });
+const b64=s=>btoa(unescape(encodeURIComponent(s)));
+async function ghPut(path,contentB64,msg){
+  const g=gh(); if(!g.token) throw new Error('আগে “GitHub সংযোগ” সেট করুন');
+  const api=`https://api.github.com/repos/${g.owner}/${g.repo}/contents/${path}`, H={Authorization:'Bearer '+g.token,Accept:'application/vnd.github+json'};
+  let sha; const cur=await fetch(api+'?ref='+g.branch,{headers:H}); if(cur.ok) sha=(await cur.json()).sha;
+  const r=await fetch(api,{method:'PUT',headers:H,body:JSON.stringify({message:msg,content:contentB64,branch:g.branch,sha})});
+  if(!r.ok) throw new Error('GitHub: '+r.status+' '+(await r.text()).slice(0,140));
+}
+$('#pubBtn').onclick=async()=>{ try{ $('#pubBtn').disabled=true; toast('⏳ Publish হচ্ছে…'); await ghPut('shared/site-data.js',b64(fileText()),'Update website content (admin)'); dirty=false;
+  $('#status').textContent='🚀 Publish হয়েছে! ১–২ মিনিট পরে ওয়েবসাইটে দেখা যাবে।'; toast('🚀 Publish সম্পন্ন'); } catch(err){ alert(err.message); } finally{ $('#pubBtn').disabled=false; } };
+async function uploadImage(file){
+  const g=gh(); const name='uploads/'+Date.now()+'-'+file.name.toLowerCase().replace(/[^a-z0-9.]+/g,'-');
+  if(!g.token){ alert('ছবি আপলোডের জন্য আগে “GitHub সংযোগ” সেট করুন — অথবা ছবির লিংক (URL) দিন।'); return null; }
+  const small=await shrink(file); toast('⏳ ছবি আপলোড হচ্ছে…');
+  try{ await ghPut('shared/'+name, small, 'Upload image '+file.name); toast('✅ ছবি আপলোড হয়েছে'); return tab==='teachers'||tab==='staff' ? name : '../shared/'+name; } catch(err){ alert(err.message); return null; }
+}
+function shrink(file){ return new Promise(res=>{ const img=new Image(); img.onload=()=>{ const s=Math.min(1,1600/Math.max(img.width,img.height)); const c=document.createElement('canvas'); c.width=img.width*s; c.height=img.height*s; c.getContext('2d').drawImage(img,0,0,c.width,c.height); res(c.toDataURL('image/jpeg',.85).split(',')[1]); }; img.src=URL.createObjectURL(file); }); }
+draw();
+</script>
+</body>
+</html>

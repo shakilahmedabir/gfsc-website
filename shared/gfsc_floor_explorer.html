@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GFSC Campus Explorer</title>
+<style>
+:root{--bg:#F5F6FB;--panel:#fff;--ink:#1d1f3a;--muted:#5b5e7a;--line:#e3e4f0;--brand:#2E3192;--brand2:#ED1C24;--accent:#F7941D;
+  --chip:#EEEFF9;--chipOn:#2E3192;--chipOnInk:#fff;--shadow:0 6px 24px rgba(29,31,58,.08);--plan:#fff;--ac:#0B78B8;--ic:#6B3FA0}
+[data-theme=dark]{--bg:#0f1124;--panel:#171a33;--ink:#eef0ff;--muted:#a6a9cc;--line:#2a2e52;--brand:#8f93ff;--chip:#23274a;--chipOn:#F7941D;--chipOnInk:#1d1f3a;
+  --shadow:0 6px 24px rgba(0,0,0,.35);--plan:#e9eaf6;--ac:#62c3ff;--ic:#c9a6ff}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--brand)}
+header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;padding:10px 20px;background:var(--panel);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
+header img{width:44px;height:auto}
+header h1{margin:0;font-size:18px;line-height:1.1;color:var(--brand)}
+header small{color:var(--muted);font-size:12px}
+.search{margin-left:auto;position:relative;flex:0 1 360px}
+.search input{width:100%;padding:10px 14px 10px 38px;border-radius:24px;border:1.5px solid var(--line);background:var(--bg);outline:none}
+.search input:focus{border-color:var(--brand)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;opacity:.6}
+.sugg{position:absolute;top:110%;left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:320px;overflow:auto;display:none}
+.sugg button{display:block;width:100%;text-align:left;padding:8px 14px;border:0;background:none;cursor:pointer}
+.sugg button:hover,.sugg button:focus{background:var(--chip)}
+.sugg b{color:var(--brand)}
+.iconbtn{border:1.5px solid var(--line);background:var(--bg);border-radius:50%;width:40px;height:40px;cursor:pointer;display:grid;place-items:center;font-size:18px}
+.wrap{display:grid;grid-template-columns:230px 1fr 320px;gap:18px;padding:18px 20px;max-width:1500px;margin:0 auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+nav.floors{padding:10px;position:sticky;top:84px;align-self:start}
+nav.floors h2,.side h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 8px 8px}
+nav.floors button{display:flex;width:100%;align-items:center;gap:10px;border:0;background:none;padding:9px 10px;border-radius:10px;cursor:pointer;text-align:left}
+nav.floors button .n{width:40px;height:30px;border-radius:8px;background:var(--chip);display:grid;place-items:center;font-weight:800;color:var(--brand);font-size:13px}
+nav.floors button.on{background:var(--brand);color:#fff}
+nav.floors button.on .n{background:rgba(255,255,255,.18);color:#fff}
+nav.floors button span.t{font-size:12.5px;line-height:1.2}
+nav.floors button span.t i{display:block;font-style:normal;opacity:.7;font-size:11px}
+main{min-width:0}
+.planhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:16px 18px 6px}
+.planhead h2{margin:0;font-size:22px;color:var(--brand)}
+.badge{font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;background:var(--chip)}
+.badge.red{background:#ED1C24;color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:6px 18px 12px}
+.chip{border:1.5px solid var(--line);background:var(--chip);padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600}
+.chip.on{background:var(--chipOn);color:var(--chipOnInk);border-color:var(--chipOn)}
+.plan{padding:6px 18px 18px}
+.plan svg{width:100%;height:auto;display:block;background:var(--plan);border-radius:12px}
+.plan .rm{cursor:pointer;transition:opacity .2s,filter .2s}
+.plan .rm:hover{filter:brightness(.93) drop-shadow(0 0 2px #F7941D)}
+.plan .rm.dim{opacity:.22}
+.plan .rm.hit{stroke:#ED1C24;stroke-width:1.6}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 18px 18px}
+.stat{background:var(--bg);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:22px;color:var(--brand)}
+.stat span{font-size:12px;color:var(--muted)}
+.side{padding:12px;align-self:start;position:sticky;top:84px;max-height:calc(100vh - 100px);overflow:auto}
+.room{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:8px;border-radius:10px;cursor:pointer;text-align:left}
+.room:hover,.room:focus{background:var(--chip)}
+.room .sw{width:12px;height:30px;border-radius:4px;flex:none;border:1px solid #2E3192}
+.room b{display:block;font-size:13.5px}
+.room small{color:var(--muted);font-size:11.5px}
+.tag{font-size:10.5px;font-weight:800;border-radius:10px;padding:1px 7px;margin-left:4px}
+.tag.ac{color:var(--ac);background:rgba(11,120,184,.12)} .tag.ic{color:var(--ic);background:rgba(107,63,160,.13)}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(10,12,30,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal.open{display:flex}
+.sheet{background:var(--panel);border-radius:20px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden;animation:pop .2s ease}
+@keyframes pop{from{transform:scale(.94);opacity:0}}
+.sheet .top{padding:18px 20px;color:#fff;background:linear-gradient(120deg,#2E3192,#4b4fc7)}
+.sheet .top h3{margin:0;font-size:22px}.sheet .top p{margin:4px 0 0;opacity:.85}
+.sheet dl{display:grid;grid-template-columns:140px 1fr;gap:8px 12px;padding:18px 20px;margin:0}
+.sheet dt{color:var(--muted);font-size:13px}.sheet dd{margin:0;font-weight:600}
+.sheet .route{margin:0 20px 18px;padding:12px 14px;border-radius:12px;background:var(--chip);font-size:13.5px;line-height:1.5}
+.sheet .x{float:right;background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:18px}
+/* chat */
+.chatbtn{position:fixed;right:22px;bottom:22px;z-index:40;border:0;border-radius:30px;padding:14px 20px;background:#ED1C24;color:#fff;font-weight:800;box-shadow:0 10px 30px rgba(237,28,36,.4);cursor:pointer}
+.chat{position:fixed;right:22px;bottom:84px;width:360px;max-width:calc(100vw - 30px);height:480px;max-height:70vh;z-index:41;display:none;flex-direction:column;overflow:hidden}
+.chat.open{display:flex}
+.chat .h{padding:12px 16px;background:var(--brand);color:#fff;font-weight:800}
+.chat .h small{display:block;font-weight:400;opacity:.85}
+.msgs{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:13.5px;line-height:1.45}
+.msg.bot{background:var(--chip);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg a{cursor:pointer;font-weight:700}
+.quick{display:flex;gap:6px;flex-wrap:wrap;padding:0 12px 8px}
+.quick button{border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:4px 10px;font-size:12px;cursor:pointer}
+.chat form{display:flex;border-top:1px solid var(--line)}
+.chat input{flex:1;border:0;padding:12px;background:var(--panel);outline:none}
+.chat form button{border:0;background:var(--accent);color:#1d1f3a;font-weight:800;padding:0 16px;cursor:pointer}
+body.embed header{position:static;box-shadow:none}
+@media (max-width:1100px){.wrap{grid-template-columns:1fr}.side,nav.floors{position:static;max-height:none}
+  nav.floors{display:flex;overflow:auto;gap:6px}nav.floors h2{display:none}nav.floors button{flex:none;width:auto}nav.floors button span.t{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}header small{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <img src="gfsc_logo.png" alt="GFSC logo">
+  <div><h1>GFSC Campus Explorer</h1><small>Greenfield School &amp; College · 10-storied building · Mirpur 10</small></div>
+  <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <input id="q" placeholder="Search a room: 403, Computer Lab, Principal…" autocomplete="off" aria-label="Search rooms">
+    <div class="sugg" id="sugg"></div></div>
+  <button class="iconbtn" id="theme" title="Dark / light mode" aria-label="Toggle dark mode">🌙</button>
+</header>
+
+<div class="wrap">
+  <nav class="floors card" id="floors"><h2>Floors</h2></nav>
+  <main class="card">
+    <div class="planhead"><h2 id="fname"></h2><span class="badge" id="fdesc"></span><span id="liftb"></span></div>
+    <div class="chips" id="chips"></div>
+    <div class="plan" id="plan"></div>
+    <div class="stats" id="stats"></div>
+  </main>
+  <aside class="side card"><h2 id="listh">Rooms on this floor</h2><div id="list"></div></aside>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+
+<button class="chatbtn" id="chatbtn">💬 Ask GFSC</button>
+<div class="chat card" id="chat">
+  <div class="h">GFSC Campus Assistant<small>Ask about any room, floor, AC, intercom, lift… (English / বাংলা)</small></div>
+  <div class="msgs" id="msgs"></div>
+  <div class="quick" id="quick"></div>
+  <form id="cf"><input id="ci" placeholder="e.g. Where is the Computer Lab?" autocomplete="off"><button>Send</button></form>
+</div>
+
+<script src="floor_core.js"></script>
+<script>
+// ---------- data ----------
+const ROOMS=[];
+for(const f of FLOORS){
+  for(const r of f.rooms) ROOMS.push({...r, floor:f, title:r.num?(r.kind==='class'?`${r.num} · ${r.opt.sub||'Class Room'}`:`${r.label} ${r.num}`):r.label});
+  for(const pt of (f.icPoints||[])) ROOMS.push({key:f.id+'|'+pt.label, label:pt.label, num:'', kind:'point', opt:{}, ic:pt.ic, floor:f, title:pt.label});
+}
+const FILTERS=[['all','All'],['class','Class rooms'],['office','Offices'],['lab','Labs'],['special','Hall / Club'],['wc','Wash rooms'],['ac','Has AC'],['ic','Has intercom']];
+let cur=FLOORS[0], filt='all';
+const $=s=>document.querySelector(s);
+const kindName=k=>k==='point'?'Gate / Lift point':KIND[k].name;
+
+// ---------- floors nav ----------
+$('#floors').insertAdjacentHTML('beforeend',[...FLOORS].reverse().map(f=>`<button data-f="${f.id}"><span class="n">${f.id==='g'?'G':f.id}</span><span class="t">${f.name}<i>${FC[f.id].classRooms} class · ${f.rooms.length} rooms</i></span></button>`).join(''));
+$('#floors').onclick=e=>{const b=e.target.closest('button[data-f]'); if(b) showFloor(b.dataset.f);};
+$('#chips').innerHTML=FILTERS.map(([k,t])=>`<button class="chip ${k==='all'?'on':''}" data-k="${k}">${t}</button>`).join('');
+$('#chips').onclick=e=>{const b=e.target.closest('.chip'); if(!b) return; filt=b.dataset.k; document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===b)); applyFilter();};
+
+const match=r=>filt==='all'||(filt==='ac'?r.opt.ac:filt==='ic'?r.ic:r.kind===filt);
+function showFloor(id,hiKey){
+  cur=FLOORS.find(f=>f.id===id);
+  document.querySelectorAll('#floors button').forEach(b=>b.classList.toggle('on',b.dataset.f===id));
+  $('#fname').textContent=cur.name; $('#fdesc').textContent=cur.desc;
+  $('#liftb').innerHTML=cur.liftStop?'<span class="badge">Lift stops here</span>':'<span class="badge red">Lift does not stop here</span>';
+  $('#plan').innerHTML=floorSvg(cur,true);
+  const c=FC[id];
+  $('#stats').innerHTML=[[cur.rooms.length,'Rooms'],[c.classRooms,'Class rooms'],[`${c.acRooms} / ${c.acUnits}`,'AC rooms / units'],[c.ic,'Intercom lines']].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join('');
+  applyFilter(hiKey);
+}
+function applyFilter(hiKey){
+  const list=ROOMS.filter(r=>r.floor===cur && match(r));
+  $('#listh').textContent=`${list.length} on ${cur.name}`;
+  $('#list').innerHTML=list.map(r=>`<button class="room" data-key="${esc(r.key)}"><span class="sw" style="background:${r.kind==='point'?'#F3EEFB':KIND[r.kind].fill}"></span>
+    <span><b>${esc(r.title)}${r.opt.ac?`<span class="tag ac">AC${r.opt.ac>1?' ×'+r.opt.ac:''}</span>`:''}${r.ic?`<span class="tag ic">☎ ${r.ic}</span>`:''}</b><small>${kindName(r.kind)}</small></span></button>`).join('');
+  document.querySelectorAll('#plan .rm').forEach(el=>{const r=ROOMS.find(x=>x.key===el.dataset.key);
+    el.classList.toggle('dim',!!r&&!match(r)); el.classList.toggle('hit',el.dataset.key===hiKey);});
+}
+$('#list').onclick=e=>{const b=e.target.closest('.room'); if(b) openRoom(b.dataset.key);};
+$('#plan').onclick=e=>{const el=e.target.closest('.rm'); if(el) openRoom(el.dataset.key);};
+
+// ---------- room popup ----------
+function route(r){
+  const f=r.floor;
+  if(f.id==='g') return 'This is on the Ground Floor — enter by Gate 1 or Gate 2.';
+  if(f.liftStop) return `Take the lift (gate opens on the stair side) or the stairs to the <b>${f.name}</b>. From the stair landing, use the left or right door into the corridor.`;
+  const stops=['g','3','5','7','9','10'], i=FLOORS.findIndex(x=>x.id===f.id);
+  const below=[...FLOORS.slice(0,i)].reverse().find(x=>stops.includes(x.id)), above=FLOORS.slice(i+1).find(x=>stops.includes(x.id));
+  return `The lift does <b>not</b> stop on the ${f.name}. Take the lift to the ${below.name}${above?` or ${above.name}`:''}, then walk one floor by the stairs — or use the stairs all the way.`;
+}
+function openRoom(key){
+  const r=ROOMS.find(x=>x.key===key); if(!r) return;
+  if(r.floor!==cur) showFloor(r.floor.id,key); else applyFilter(key);
+  const lf=v=>v==null?'<span style="color:var(--muted)">not set yet</span>':v;
+  $('#sheet').innerHTML=`<div class="top"><button class="x" aria-label="Close">×</button><h3>${esc(r.title)}</h3><p>${r.floor.name} · ${kindName(r.kind)}</p></div>
+   <dl>${r.num?`<dt>Room number</dt><dd>${esc(r.num)}</dd>`:''}
+   ${r.opt.sub?`<dt>Class / section</dt><dd>${esc(r.opt.sub)}</dd>`:''}
+   <dt>Floor</dt><dd>${r.floor.name}</dd>
+   <dt>Air conditioner</dt><dd>${r.opt.ac?`Yes · ${r.opt.ac} unit${r.opt.ac>1?'s':''}`:'No'}</dd>
+   <dt>Intercom</dt><dd>${r.ic?`☎ ${r.ic}`:'—'}</dd>
+   ${r.opt.stalls?`<dt>Sections</dt><dd>${r.opt.stalls}</dd>`:''}
+   <dt>Lift on this floor</dt><dd>${r.floor.liftStop?'Stops here':'Does not stop'}</dd></dl>
+   <div class="route">🧭 ${route(r)}</div>`;
+  $('#modal').classList.add('open'); $('#sheet .x').focus();
+}
+$('#modal').onclick=e=>{if(e.target.id==='modal'||e.target.closest('.x')) $('#modal').classList.remove('open');};
+addEventListener('keydown',e=>{if(e.key==='Escape') $('#modal').classList.remove('open');});
+
+// ---------- search ----------
+const norm=s=>String(s).toLowerCase().replace(/[’']/g,'').replace(/\s+/g,' ');
+function find(q){ q=norm(q).trim(); if(!q) return [];
+  const words=q.split(' ');
+  return ROOMS.map(r=>{const hay=norm(`${r.num} ${r.label} ${r.opt.sub||''} ${r.floor.name} ${kindName(r.kind)} ${r.ic?'intercom '+r.ic:''}`);
+     let s=0; if(r.num&&norm(r.num).split(/[ ,]+/).includes(q)) s+=10; for(const w of words) if(hay.includes(w)) s+=w.length>2?2:1; return {r,s};})
+    .filter(o=>o.s>0).sort((a,b)=>b.s-a.s).slice(0,8).map(o=>o.r);
+}
+$('#q').oninput=()=>{const res=find($('#q').value);
+  $('#sugg').style.display=res.length?'block':'none';
+  $('#sugg').innerHTML=res.map(r=>`<button data-key="${esc(r.key)}"><b>${esc(r.title)}</b> <small>· ${r.floor.name}</small></button>`).join('');};
+$('#sugg').onclick=e=>{const b=e.target.closest('button'); if(b){openRoom(b.dataset.key); $('#sugg').style.display='none'; $('#q').value='';}};
+$('#q').onkeydown=e=>{if(e.key==='Enter'){const b=$('#sugg button'); if(b) b.click();}};
+
+// ---------- theme ----------
+const setTheme=t=>{document.documentElement.dataset.theme=t; $('#theme').textContent=t==='dark'?'☀️':'🌙'; try{localStorage.setItem('gfsc-theme',t);}catch(e){}};
+let saved=null; try{saved=localStorage.getItem('gfsc-theme');}catch(e){}
+setTheme(saved||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+$('#theme').onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+
+// ---------- chatbot (works offline, answers from the floor data) ----------
+const floorWord=q=>{ if(/ground|নিচ|গ্রাউন্ড|\bg\b/.test(q)) return 'g';
+  const bn={'২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9','১০':'10'};
+  const m=q.match(/\b(10|[2-9])(st|nd|rd|th)?\s*(floor|তলা|ফ্লোর)/)||q.match(/(১০|[২-৯])\s*(তলা|ফ্লোর|তম)/);
+  return m?(bn[m[1]]||m[1]):null; };
+const link=r=>`<a data-key="${esc(r.key)}">${esc(r.title)}</a> (${r.floor.name})`;
+function answer(raw){
+  const q=norm(raw);
+  const has=(...w)=>w.some(x=>q.includes(x));
+  if(has('hello','hi ','salam','assalam','হ্যালো','সালাম')||q==='hi') return 'Hello! 👋 Ask me where any room is, or about AC, intercom, lift or floors.';
+  if(has('lift','elevator','লিফট')) return 'The lift gate opens on the stair side and the lift stops only at <b>Ground, 3rd, 5th, 7th, 9th and 10th</b> floors. On 2nd, 4th, 6th and 8th please use the stairs. Lift intercom: ☎ '+(ROOMS.find(r=>r.label==='Lift'&&r.kind==='point')?.ic||'—')+'.';
+  if(has('gate','গেট')) return ROOMS.filter(r=>/Gate/.test(r.label)).map(r=>`${r.label}: intercom ☎ ${r.ic}`).join('<br>')+'<br>Gate 1 is on the south side (Mirpur Road lane), Gate 2 on the west side.';
+  if(has('how many','total','count','কয়টি','কতগুলো','মোট','কত')){
+    if(has('ac','air','এসি')) return `There are <b>${AC.classRooms}</b> AC class rooms, <b>${AC.rooms}</b> AC rooms in total and <b>${AC.units}</b> AC units.`;
+    if(has('intercom','ইন্টারকম','phone')) return `There are <b>${TOT.ic}</b> intercom lines (01 – ${String(TOT.ic).padStart(2,'0')}). 01 is the Principal.`;
+    if(has('wash','toilet','wc','বাথরুম','টয়লেট','ওয়াশ')) return `<b>${TOT.wc}</b> wash rooms (${TOT.girls} Girls WC + ${TOT.boys} Boys WC with 3 sections each).`;
+    if(has('class','ক্লাস','শ্রেণি')) return `<b>${TOT.classRooms}</b> class rooms in the building.`;
+    if(has('floor','তলা','ফ্লোর')) return `${FLOORS.length} floors are used: Ground and 2nd – 10th.`;
+    return `The building has <b>${Object.values(TOT.kinds).reduce((a,b)=>a+b,0)}</b> rooms: ${TOT.classRooms} class rooms, ${TOT.kinds.office} offices, ${TOT.wc} wash rooms, ${AC.units} AC units and ${TOT.ic} intercom lines.`;
+  }
+  const fw=floorWord(q);
+  if(fw && !/\d{3}/.test(q)){ const f=FLOORS.find(x=>x.id===fw); showFloor(fw);
+    return `<b>${f.name}</b>: ${f.desc}.<br>${f.rooms.filter(r=>r.kind!=='wc').map(r=>`<a data-key="${esc(r.key)}">${esc(r.num||r.label)}</a>`).join(' · ')}<br>${f.liftStop?'Lift stops here.':'Lift does not stop here.'}`; }
+  const res=find(raw.replace(/where( is)?|কোথায়|কই|room|রুম|\?/gi,' '));
+  if(res.length){ const r=res[0];
+    let a=`${link(r)}${r.opt.ac?' · AC':''}${r.ic?` · intercom ☎ ${r.ic}`:''}.<br>${route(r)}`;
+    if(res.length>1) a+=`<br><small>Also: ${res.slice(1,4).map(link).join(', ')}</small>`;
+    return a; }
+  return 'Sorry, I could not find that. Try a room number (e.g. <b>403</b>), a name (<b>Computer Lab</b>, <b>Principal</b>) or ask “how many AC rooms?”.';
+}
+const msgs=$('#msgs');
+const say=(t,who)=>{msgs.insertAdjacentHTML('beforeend',`<div class="msg ${who}">${t}</div>`); msgs.scrollTop=msgs.scrollHeight;};
+say('Hi! I am the GFSC campus assistant. Ask me about any room. আপনি বাংলাতেও জিজ্ঞেস করতে পারেন।','bot');
+$('#quick').innerHTML=['Where is the Computer Lab?','Principal intercom','How many AC rooms?','9th floor','লিফট কোথায় থামে?'].map(t=>`<button>${t}</button>`).join('');
+$('#quick').onclick=e=>{if(e.target.tagName==='BUTTON') ask(e.target.textContent);};
+const ask=t=>{say(esc(t),'me'); setTimeout(()=>say(answer(t),'bot'),250);};
+$('#cf').onsubmit=e=>{e.preventDefault(); const t=$('#ci').value.trim(); if(t){ask(t); $('#ci').value='';}};
+msgs.onclick=e=>{const a=e.target.closest('a[data-key]'); if(a) openRoom(a.dataset.key);};
+$('#chatbtn').onclick=()=>{$('#chat').classList.toggle('open'); if($('#chat').classList.contains('open')) $('#ci').focus();};
+
+// ---------- embedded in the website: ?embed=1&mode=dark ----------
+const QS=new URLSearchParams(location.search);
+if(QS.get('embed')){ document.body.classList.add('embed'); $('#chatbtn').style.display='none'; }
+if(QS.get('mode')) setTheme(QS.get('mode'));
+addEventListener('hashchange',()=>{const h=decodeURIComponent(location.hash.slice(1)); if(h.startsWith('room=')){const r=find(h.slice(5))[0]; if(r) openRoom(r.key);} else if(h.startsWith('floor=')) showFloor(h.slice(6));});
+// ---------- start (supports #room=403 or #floor=9 links) ----------
+const h=decodeURIComponent(location.hash.slice(1));
+showFloor(h.startsWith('floor=')?h.slice(6):'g');
+if(h.startsWith('room=')){const r=find(h.slice(5))[0]; if(r) openRoom(r.key);}
+</script>
+</body>
+</html>

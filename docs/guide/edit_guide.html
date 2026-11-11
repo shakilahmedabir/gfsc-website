@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><title>GFSC Website — Edit Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet">
+<style>
+@page{size:A4;margin:14mm 14mm 16mm}
+body{font-family:"Hind Siliguri","Plus Jakarta Sans",sans-serif;color:#1d1f3a;font-size:11.5pt;line-height:1.6;margin:0}
+h1{font-size:26pt;color:#2E3192;margin:0 0 4pt;line-height:1.2}
+.cover{border-bottom:4pt solid #2E3192;padding-bottom:10pt;margin-bottom:14pt;display:flex;gap:14pt;align-items:center}
+.cover img{width:70pt}.cover p{margin:0;color:#5b5e7a}
+h2{font-size:16pt;color:#fff;background:#2E3192;padding:5pt 10pt;border-radius:6pt;margin:18pt 0 8pt;break-after:avoid}
+h3{font-size:12.5pt;color:#ED1C24;margin:12pt 0 4pt;break-after:avoid}
+code,.k{font-family:Consolas,monospace;background:#EEEFF9;border-radius:4pt;padding:0 4pt;font-size:10pt}
+ol,ul{margin:4pt 0 8pt;padding-left:18pt}li{margin:2pt 0}
+.box{border:1.2pt solid #F7941D;background:#FFF8EE;border-radius:8pt;padding:8pt 12pt;margin:8pt 0;break-inside:avoid}
+.ok{border-color:#16a34a;background:#EFFBF2}
+table{width:100%;border-collapse:collapse;margin:6pt 0;break-inside:avoid}td,th{border:.6pt solid #cfd0e6;padding:4pt 6pt;text-align:left;vertical-align:top;font-size:10.5pt}th{background:#EEEFF9}
+.url{font-family:"Plus Jakarta Sans";font-weight:800;color:#2E3192;font-size:12pt}
+</style></head><body>
+<div class="cover"><img src="../../shared/gfsc_logo.png" alt=""><div><h1>ওয়েবসাইট এডিট করার নির্দেশিকা</h1><p>গ্রীনফিল্ড স্কুল এন্ড কলেজ · GFSC Website Edit Guide · নভেম্বর ২০২৬</p></div></div>
+
+<h2>১. ওয়েবসাইটের ঠিকানা (শেয়ার করার লিংক)</h2>
+<p class="url">https://shakilahmedabir.github.io/gfsc-website/</p>
+<ul>
+<li>ডিজাইন ১ (Aurora): <span class="k">…/gfsc-website/v1-aurora/</span></li>
+<li>ডিজাইন ২ (Heritage): <span class="k">…/gfsc-website/v2-heritage/</span></li>
+<li>ডিজাইন ৩ (Bento): <span class="k">…/gfsc-website/v3-bento/</span></li>
+<li>এডিটর (শুধু আপনার জন্য): <span class="k">…/gfsc-website/admin/</span></li>
+<li>ক্যাম্পাস ম্যাপ: <span class="k">…/gfsc-website/shared/gfsc_floor_explorer.html</span></li>
+</ul>
+
+<h2>২. প্রথমবার: GitHub সংযোগ (একবারই করতে হবে)</h2>
+<ol>
+<li>github.com-এ লগইন করুন → উপরে ডানে ছবিতে ক্লিক → <b>Settings</b> → নিচে <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>।</li>
+<li>নাম দিন: <span class="k">gfsc-editor</span>। Expiration: ১ বছর।</li>
+<li><b>Repository access</b> → <i>Only select repositories</i> → <span class="k">gfsc-website</span> বেছে নিন।</li>
+<li><b>Permissions → Repository permissions → Contents</b> → <b>Read and write</b>।</li>
+<li><b>Generate token</b> চাপুন → লম্বা কোডটি কপি করুন (পরে আর দেখা যাবে না)।</li>
+<li>এডিটর খুলুন (<span class="k">…/admin/</span>) → উপরে <b>⚙️ GitHub সংযোগ</b> → Owner: <span class="k">shakilahmedabir</span>, Repository: <span class="k">gfsc-website</span>, Branch: <span class="k">main</span>, Token: কপি করা কোড → <b>সেভ</b>।</li>
+</ol>
+<div class="box">🔒 টোকেনটি পাসওয়ার্ডের মতো। কাউকে দেবেন না। এটি শুধু আপনার কম্পিউটারের ব্রাউজারে সেভ থাকে। অন্য কম্পিউটারে এডিট করতে সেখানে আবার সেট করতে হবে। হারিয়ে গেলে GitHub থেকে টোকেন মুছে নতুন বানান।</div>
+
+<h2>৩. এডিটর দিয়ে কাজ করা (সবচেয়ে সহজ)</h2>
+<p>এডিটরের উপরে ৫টি ট্যাব: <b>📢 নোটিশ · 📰 খবর/স্ট্যাটাস/পোস্ট · 🖼️ অ্যালবাম/গ্যালারি · 👩‍🏫 শিক্ষক · 🧑‍💼 স্টাফ</b>। প্রতিটির নিয়ম একই:</p>
+<ol>
+<li>ট্যাব বেছে নিন → <b>＋ নতুন যোগ করুন</b> (নতুনটি তালিকার একদম উপরে আসবে)।</li>
+<li>ডান পাশের ঘরগুলো পূরণ করুন। বাংলা ও English অবশ্যই লিখুন; আরবি/জার্মান খালি থাকলে ইংরেজি দেখাবে।</li>
+<li>পুরোনোটি বদলাতে ✏️, মুছতে 🗑, ক্রম বদলাতে ↑ ↓ চাপুন।</li>
+<li>শেষে উপরে সবুজ <b>🚀 Publish</b> চাপুন। ১–২ মিনিট পরে ওয়েবসাইটে দেখা যাবে (পেজ রিফ্রেশ করুন)।</li>
+</ol>
+
+<h3>📢 নতুন নোটিশ</h3>
+<ul><li>তারিখ, শিরোনাম (বাংলা + English), PDF লিংক (ঐচ্ছিক)।</li>
+<li><b>“ওয়েবসাইট খুললেই পপ-আপ দেখাবে”</b> টিক দিলে নোটিশটি ওয়েবসাইটে ঢোকার সাথে সাথে পপ-আপ হবে এবং “জরুরি” ব্যাজ পাবে। পুরোনো জরুরি নোটিশের টিক তুলে দিন।</li></ul>
+<h3>📰 খবর / স্ট্যাটাস / পোস্ট</h3>
+<ul><li><b>ধরন</b>: <span class="k">news</span> (খবর), <span class="k">status</span> (ছোট আপডেট), <span class="k">post</span> (সাধারণ পোস্ট)।</li>
+<li>শিরোনাম, বিস্তারিত, ছবি (কম্পিউটার থেকে বাছলে নিজে থেকেই আপলোড ও ছোট হবে), “আরও পড়ুন” লিংক।</li>
+<li>হোম পেজে সর্বশেষ ৩টি, আর “নোটিশ” পেজে সবগুলো দেখায়।</li></ul>
+<h3>🖼️ নতুন অ্যালবাম / গ্যালারি</h3>
+<ul><li>আকর্ষণীয় নাম দিন (যেমন: “উড়ে চলার ডানা — এইচএসসি বিদায় ২০২৭”), বছর, বিবরণ।</li>
+<li><b>ছবি যোগ</b>: কম্পিউটার থেকে একসাথে অনেক ছবি বাছুন (আপলোড হবে), অথবা ছবির লিংক প্রতি লাইনে একটি দিয়ে “＋ লিংক যোগ”।</li>
+<li>প্রথম ছবিটি হবে অ্যালবামের কভার। ছবির উপরের × দিয়ে মুছুন।</li>
+<li>ওয়েবসাইটে ছবিতে ক্লিক করলে একই পেজে কালো ব্যাকগ্রাউন্ডে বড় করে খুলবে — আগে/পরে, বন্ধ ও অ্যালবামের তথ্যসহ।</li></ul>
+<h3>👩‍🏫 শিক্ষক / 🧑‍💼 স্টাফ</h3>
+<ul><li>নাম, পদবি, বিভাগ (বিষয় অনুযায়ী ফিল্টার হয়), দায়িত্ব ও যোগ্যতা (প্রতি লাইনে একটি), ছবি।</li>
+<li>ছবি না থাকলে নামের আদ্যক্ষর দিয়ে সুন্দর আইকন দেখাবে।</li>
+<li>নিরাপত্তার জন্য মোবাইল নম্বর ও রক্তের গ্রুপ ওয়েবসাইটে দেখানো হয়নি।</li></ul>
+<div class="box ok">💡 GitHub সংযোগ না থাকলে: <b>⬇️ site-data.js ডাউনলোড</b> চাপুন, তারপর ফাইলটি <span class="k">website/shared/</span> ফোল্ডারের পুরোনো ফাইলের জায়গায় রাখুন এবং GitHub-এ আপলোড করুন।</div>
+
+<h2>৪. অন্য লেখা বদলানো (ফাইল এডিট করে)</h2>
+<table>
+<tr><th>যা বদলাবেন</th><th>ফাইল</th><th>কীভাবে</th></tr>
+<tr><td>মেনু, বাটন, হিরো লেখা, ঠিকানা, ফোন, সোশ্যাল লিংক, সুবিধা, ভর্তির ধাপ</td><td><span class="k">shared/content.js</span></td><td>Notepad / VS Code দিয়ে খুলুন। <span class="k">'…'</span> উদ্ধৃতির ভেতরের লেখা বদলান, কমা ও উদ্ধৃতি চিহ্ন রাখুন।</td></tr>
+<tr><td>১২ মাসের থিম (রং, অ্যানিমেশন, শুভেচ্ছা)</td><td><span class="k">shared/content.js</span> → <span class="k">MONTHS</span></td><td><span class="k">c:['#রং১','#রং২','#রং৩']</span> বদলান; <span class="k">fx</span>: mist, letters, flag, alpona, sun, rain, clouds, kash, leaves, paddy, sparkle।</td></tr>
+<tr><td>বৈশ্বিক লক্ষ্য (SDG), মিশন-ভিশন, ক্যারিয়ার, দিবস</td><td><span class="k">shared/goals.js</span></td><td>একই নিয়মে লেখা বদলান।</td></tr>
+<tr><td>রুম/ফ্লোরের তথ্য</td><td><span class="k">source/floor_core.js</span></td><td>বদলের পর <span class="k">export.ps1</span> চালান এবং <span class="k">floor_core.js</span> ফাইলটি <span class="k">website/shared/</span>-এ কপি করুন।</td></tr>
+<tr><td>লাইট-ফ্যান সংখ্যা</td><td><span class="k">Light_Fan_Input.csv</span></td><td>Excel-এ পূরণ করে Claude-কে দিন; PDF-এ বসানো হবে।</td></tr>
+<tr><td>গেট বিলবোর্ড</td><td><span class="k">billboard/source/billboard.html</span></td><td>লেখা বদলে <span class="k">export_billboard.ps1</span> চালান → নতুন PDF/PNG।</td></tr>
+</table>
+<p>ফাইল বদলের পর GitHub-এ তোলার সহজ উপায়: github.com/shakilahmedabir/gfsc-website → ফাইলে ক্লিক → ✏️ (Edit) → বদলান → <b>Commit changes</b>। অথবা ফোল্ডারে ফাইল টেনে এনে <b>Add file → Upload files</b>।</p>
+
+<h2>৫. সমস্যা হলে</h2>
+<ul>
+<li><b>Publish-এ 401/403</b>: টোকেনের মেয়াদ শেষ বা Contents “Read and write” দেওয়া নেই — নতুন টোকেন বানান।</li>
+<li><b>Publish-এ 404</b>: Owner / Repository নাম ভুল।</li>
+<li><b>পরিবর্তন দেখা যাচ্ছে না</b>: ২ মিনিট অপেক্ষা করে <span class="k">Ctrl + F5</span> চাপুন।</li>
+<li><b>ওয়েবসাইট সাদা দেখাচ্ছে</b>: হাতে এডিট করা ফাইলে কমা/উদ্ধৃতি ভুল হয়েছে — GitHub-এ ফাইলের <b>History</b> থেকে আগের ভার্সন ফেরত আনুন।</li>
+<li><b>ছবি আসছে না</b>: লিংক https:// দিয়ে শুরু কিনা দেখুন, অথবা ছবিটি আবার আপলোড করুন।</li>
+</ul>
+<div class="box">📌 নিজের কম্পিউটারে চালাতে: <span class="k">python -m http.server 8765 --directory "E:\floor plan\Final"</span> → ব্রাউজারে <span class="k">http://localhost:8765/website/</span></div>
+</body></html>
