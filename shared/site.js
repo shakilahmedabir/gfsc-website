@@ -316,7 +316,7 @@ const KW = { // keywords in all 4 languages
 let ROOMS=[];
 function buildRooms(){ if(typeof FLOORS==='undefined') return;
   ROOMS=[]; for(const f of FLOORS) for(const r of f.rooms) ROOMS.push({r,f,hay:`${r.num} ${r.label} ${r.opt.sub||''}`.toLowerCase()}); }
-const ROOM_WORDS = {'কম্পিউটার':'computer','ল্যাব':'lab','অধ্যক্ষ':'principal','প্রিন্সিপাল':'principal','ক্যান্টিন':'canteen','নামাজ':'prayer','লাইব্রেরি':'library','মেয়েদের':'girls','ছাত্রীদের':'girls','কমন':'common','অডিটোরিয়াম':'auditorium','হল':'hall','শিক্ষক':'teacher','রসায়ন':'chemistry','পদার্থ':'physics','জীববিজ্ঞান':'biology','প্লে':'play',
+const ROOM_WORDS = {'কম্পিউটার':'computer','ল্যাব':'lab','অধ্যক্ষ':'principal','প্রিন্সিপাল':'principal','ক্যান্টিন':'canteen','নামাজ':'prayer','লাইব্রেরি':'library','স্কুল':'school','কলেজ':'college','জুনিয়র':'junior','মেয়েদের':'girls','ছাত্রীদের':'girls','কমন':'common','অডিটোরিয়াম':'auditorium','হল':'hall','শিক্ষক':'teacher','রসায়ন':'chemistry','পদার্থ':'physics','জীববিজ্ঞান':'biology','প্লে':'play',
   'حاسوب':'computer','مختبر':'lab','مدير':'principal','computerlabor':'computer lab','labor':'lab','kantine':'canteen','aula':'auditorium','physik':'physics','chemie':'chemistry','biologie':'biology'};
 const floorName = f => { if(lang==='en') return f.name; const n=f.id==='g'?0:+f.id;
   if(lang==='bn') return n?digits(n)+({2:'য়',3:'য়',4:'র্থ',6:'ষ্ঠ'}[n]||'ম')+' তলা':'নিচতলা';
