@@ -344,3 +344,82 @@ body{padding-bottom:0}
 }
 
 @media (max-width:760px){.nv-tools{scrollbar-width:none}.nv-tools::-webkit-scrollbar{display:none}.dock .badge{top:4px;inset-inline-end:8px}}
+
+/* ---------- relaxed navigation ---------- */
+.nv-in{padding:14px 20px;gap:22px}
+.menu{gap:4px}
+.menu a{padding:9px 13px;transition:background .2s,color .2s,transform .2s}
+.menu a:hover{transform:translateY(-1px);color:var(--p)}
+[data-mode=dark] .menu a:hover{color:var(--a)}
+.menu a::after{content:"";display:block;height:2px;background:var(--a);border-radius:2px;transform:scaleX(0);transition:transform .25s;margin-top:2px}
+.menu a:hover::after{transform:scaleX(1)}
+.menu a.on::after{display:none}
+
+/* ---------- settings panel ---------- */
+.m-settings .m-box{width:min(680px,100%)}
+.set-grp{margin:16px 0}
+.set-grp h4{display:flex;gap:8px;align-items:center;margin:0 0 8px;font-size:15px}
+.set-row{display:flex;flex-wrap:wrap;gap:8px}
+.set-b{display:flex;align-items:center;gap:8px;border:2px solid var(--field-line);background:var(--field-bg);color:var(--field-ink);border-radius:999px;padding:8px 16px;font-weight:700;cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .15s}
+.set-b:hover{transform:translateY(-2px);border-color:var(--a);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.set-b.on{background:var(--p);color:var(--on-p);border-color:var(--p);box-shadow:0 0 0 3px color-mix(in srgb,var(--a) 45%,transparent)}
+.bgp span{width:22px;height:22px;border-radius:6px;border:1px solid var(--line);background:var(--bg)}
+.bg-soft span{background:linear-gradient(135deg,color-mix(in srgb,var(--p) 25%,#fff),color-mix(in srgb,var(--s) 25%,#fff))}
+.bg-dots span{background:radial-gradient(color-mix(in srgb,var(--p) 45%,transparent) 1.5px,#fff 1.6px) 0 0/7px 7px}
+.bg-grid span{background:linear-gradient(color-mix(in srgb,var(--p) 30%,transparent) 1px,transparent 1px) 0 0/7px 7px,linear-gradient(90deg,color-mix(in srgb,var(--p) 30%,transparent) 1px,#fff 1px) 0 0/7px 7px}
+.set-months{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.set-m{display:flex;gap:8px;align-items:center;text-align:start;border:2px solid var(--field-line);background:var(--field-bg);color:var(--field-ink);border-radius:14px;padding:8px 10px;cursor:pointer;font-size:12.5px;transition:transform .15s,border-color .15s,box-shadow .15s}
+.set-m i{width:26px;height:26px;border-radius:8px;flex:none}
+.set-m:hover{transform:translateY(-2px);border-color:var(--a);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.set-m.on{border-color:var(--p);box-shadow:0 0 0 3px color-mix(in srgb,var(--a) 45%,transparent)}
+.dock .d-set{color:var(--muted)}
+
+/* ---------- page backgrounds ---------- */
+[data-bg=soft] body{background:linear-gradient(180deg,color-mix(in srgb,var(--p) 9%,var(--bg)),color-mix(in srgb,var(--s) 9%,var(--bg))) fixed}
+[data-bg=dots] body{background:radial-gradient(color-mix(in srgb,var(--p) 16%,transparent) 1.4px,transparent 1.5px) 0 0/22px 22px,var(--bg)}
+[data-bg=grid] body{background:linear-gradient(color-mix(in srgb,var(--p) 8%,transparent) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,color-mix(in srgb,var(--p) 8%,transparent) 1px,transparent 1px) 0 0/28px 28px,var(--bg)}
+[data-bg=soft] .sec.alt,[data-bg=dots] .sec.alt,[data-bg=grid] .sec.alt{background:color-mix(in srgb,var(--surface) 55%,transparent)}
+
+/* ---------- chatbot option chips ---------- */
+.cb-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cb{border:1.5px solid var(--p);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s}
+.cb:hover{background:var(--p);color:var(--on-p);transform:translateY(-1px)}
+
+/* ---------- hover effects everywhere (feedback for every clickable thing) ---------- */
+a,button,[role=button]{transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease,color .18s ease,border-color .18s ease,filter .18s ease}
+.card,.stat,.fac,.journey li,.notices li,.person,.sdg,.days li,.career,.album,.post,.campus-teaser,.goals-teaser,.b{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.card:hover,.stat:hover,.fac:hover,.journey li:hover,.person:hover,.days li:hover,.post:hover,.album:hover{transform:translateY(-4px);box-shadow:0 16px 36px color-mix(in srgb,var(--p) 18%,rgba(0,0,0,.08));border-color:color-mix(in srgb,var(--a) 60%,var(--line))}
+.notices li:hover{transform:translateX(4px);border-inline-start-color:var(--p);box-shadow:var(--shadow)}
+[dir=rtl] .notices li:hover{transform:translateX(-4px)}
+.sdg:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 18px 40px rgba(0,0,0,.22)}
+.campus-teaser:hover,.goals-teaser:hover{transform:translateY(-4px);box-shadow:0 20px 44px color-mix(in srgb,var(--p) 20%,rgba(0,0,0,.1))}
+.album:hover .cover img,.post:hover img{filter:brightness(1.06) saturate(1.1)}
+.gallery .ph:hover img{transform:scale(1.05);filter:brightness(1.08)}
+.gallery .ph{position:relative}
+.gallery .ph::after{content:"🔍";position:absolute;inset:auto 10px 10px auto;font-size:18px;background:rgba(0,0,0,.55);border-radius:999px;padding:4px 8px;opacity:0;transition:opacity .2s}
+.gallery .ph:hover::after{opacity:1}
+.links a:not(.btn):hover{background:var(--p);color:var(--on-p);border-color:var(--p);transform:translateY(-2px)}
+.btn-ghost:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
+.btn:active,.set-b:active,.cb:active,.dock button:active{transform:scale(.97)}
+.soc a:hover{transform:translateY(-3px) scale(1.08);background:var(--a);color:var(--on-a)}
+.tb-l a:hover{opacity:1;text-decoration:underline}
+.brand:hover img{transform:rotate(-6deg) scale(1.05)}
+.brand img{transition:transform .3s}
+.iconb:hover{border-color:var(--a);background:color-mix(in srgb,var(--a) 15%,var(--field-bg));transform:translateY(-1px)}
+.dock button:hover{transform:translateX(-4px);box-shadow:0 10px 24px rgba(0,0,0,.18)}
+[dir=rtl] .dock button:hover{transform:translateX(4px)}
+.adm-float:hover{filter:brightness(1.1);padding-inline-start:16px}
+.chat-fab:hover{transform:translateY(-3px) scale(1.04)}
+.ch-q button:hover{background:var(--p);color:var(--on-p);border-color:var(--p)}
+.ch-f button:hover{filter:brightness(1.12)}
+.m-x:hover{background:var(--s);color:var(--on-s);transform:rotate(90deg)}
+.lb-x:hover{background:#fff;color:#000;transform:rotate(90deg)}
+.lb-thumbs button:hover{opacity:1;transform:translateY(-2px)}
+.pp-chips button:hover{border-color:var(--a);transform:translateY(-1px)}
+.seg span:hover{border-color:var(--a)}
+.more:hover{letter-spacing:.02em;text-decoration:underline}
+.ft a:hover{opacity:1;color:#fff;padding-inline-start:4px}
+.q-list button:hover{transform:translateX(3px)}
+.field input:hover,.field select:hover,.field textarea:hover,.pp-search:hover{border-color:color-mix(in srgb,var(--a) 70%,var(--field-line))}
+@media (hover:none){.card:hover,.person:hover,.sdg:hover{transform:none}}
+@media (max-width:760px){.dock button:hover{transform:none}}

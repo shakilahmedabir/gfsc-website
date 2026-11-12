@@ -21,14 +21,22 @@ const SD = window.SITE_DATA || {};
 const NOTICES = SD.notices ? SD.notices.map(n => Object.assign({date:n.date,pin:n.pin,file:n.file}, n.title)) : NOTICES;
 const POSTS = SD.posts || [];
 const ALBUMS = SD.albums || [];
-const TEACHERS = SD.teachers || [], STAFF = SD.staff || [];
+const RANK = d => /professor/i.test(d)?0 : /coordinator/i.test(d)?1 : /lecturer/i.test(d)?2 : /assistant teacher|asst/i.test(d)?3 : /music/i.test(d)?4 : /junior/i.test(d)?5 : 6;
+const SUBJ = ['English','Bangla','Mathematics','ICT','Science','Business Studies','Humanities','Music'];
+const sortTeachers = list => SD.keepOrder ? list : [...list].sort((a,b)=>RANK(a.desig)-RANK(b.desig) || ((SUBJ.indexOf(a.dept)+1||99)-(SUBJ.indexOf(b.dept)+1||99)));
+const STAFF_ORDER = ['P.R.O','Admin','Account Officer','Assistant Accountant','Office Executive','Librarian','Supervisor','Asst. Supervisor','Driver','Guard','Aya'];
+const staffRank = d => { const i=STAFF_ORDER.findIndex(x=>x.toLowerCase()===String(d).toLowerCase()); return i<0?50:i; };
+const TEACHERS = sortTeachers(SD.teachers || []), STAFF = SD.keepOrder ? (SD.staff||[]) : [...(SD.staff||[])].sort((a,b)=>staffRank(a.desig)-staffRank(b.desig));
 const ALL_PHOTOS = ALBUMS.flatMap((a,ai) => a.photos.map((p,pi) => ({src:p, ai, pi})));
 const digits = s => lang === 'bn' ? String(s).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]) : lang === 'ar' ? String(s).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : String(s);
 const fmtDate = d => { try { return new Date(d+'T00:00:00').toLocaleDateString({bn:'bn-BD',en:'en-GB',ar:'ar-EG',de:'de-DE'}[lang], {day:'numeric',month:'long',year:'numeric'}); } catch(e){ return d; } };
 
 /* ---------- month theme + light/dark ---------- */
 let month = +(store.get('month') || 0) || (new Date().getMonth() + 1);
-let mode = store.get('mode') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+let modeSet = store.get('mode') || 'auto';               // 'auto' | 'light' | 'dark'
+let mode = modeSet==='auto' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : modeSet;
+let monthAuto = !store.get('month');
+let bg = store.get('bg') || 'plain';                     // 'plain' | 'soft' | 'dots' | 'grid'
 const lum = hex => { const n = parseInt(hex.slice(1),16), c = [n>>16, n>>8&255, n&255].map(v => { v/=255; return v<=.03928 ? v/12.92 : ((v+.055)/1.055)**2.4; }); return .2126*c[0]+.7152*c[1]+.0722*c[2]; };
 const onColor = hex => lum(hex) > .38 ? '#141414' : '#ffffff';   // text colour that is always readable on that background
 function applyTheme(){
@@ -38,7 +46,7 @@ function applyTheme(){
   r.style.setProperty('--p', sorted[0]); r.style.setProperty('--s', th.c[1]); const acc=[th.c[2],th.c[1],th.c[0]].find(c=>{const l=lum(c); return l>.1&&l<.72;})||'#F7941D'; r.style.setProperty('--a', acc);
   r.style.setProperty('--on-p', onColor(sorted[0])); r.style.setProperty('--on-s', onColor(th.c[1]));
   r.style.setProperty('--on-a', onColor(acc));
-  r.dataset.mode = mode; r.dataset.fx = th.fx; r.dataset.month = month;
+  r.dataset.mode = mode; r.dataset.fx = th.fx; r.dataset.month = month; r.dataset.bg = bg;
   startFx(th.fx);
 }
 
@@ -59,6 +67,7 @@ const I = {
   sun:'<circle cx="12" cy="12" r="4.5"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4.2 4.2l2.1 2.1m11.4 11.4 2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="currentColor" stroke-width="2" fill="none"/>',
   moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
   apply:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm-1 7V3.5L18.5 9zM8 13h8v2H8zm0 4h5v2H8z"/>',
+  gear:'<path d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.4 2.9a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1L11 21h4l.4-2.9a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/>',
   globe:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-3a15.7 15.7 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.2 1.5 2.5 1.9 4h-3.8c.4-1.5 1.1-2.8 1.9-4zM4.3 14a8 8 0 0 1 0-4h3.4a16.5 16.5 0 0 0 0 4zm.8 2h3a15.7 15.7 0 0 0 1.4 3.6A8 8 0 0 1 5.1 16zm3-8h-3a8 8 0 0 1 4.4-3.6C8 5.5 7.6 6.7 8.1 8zM12 20c-.8-1.2-1.5-2.5-1.9-4h3.8c-.4 1.5-1.1 2.8-1.9 4zm2.3-6H9.7a14.7 14.7 0 0 1 0-4h4.6a14.7 14.7 0 0 1 0 4zm.3 5.6c.6-1.1 1.1-2.4 1.4-3.6h3a8 8 0 0 1-4.4 3.6zM16.3 14a16.5 16.5 0 0 0 0-4h3.4a8 8 0 0 1 0 4z"/>'
 };
 const svg = (k, cls='ic') => `<svg class="${cls}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${I[k]}</svg>`;
@@ -83,9 +92,6 @@ function nav(){
    <a class="brand" href="#/home"><img src="${SCHOOL.logo}" alt="GFSC logo"><span><b>${lang==='bn'?'গ্রীনফিল্ড স্কুল এন্ড কলেজ':'Greenfield School & College'}</b><small>${t('heroKicker')}</small></span></a>
    <nav class="menu" id="menu">${PAGES.map(p=>`<a href="#/${p}" data-p="${p}">${t(p)}</a>`).join('')}</nav>
    <div class="nv-tools">
-     <label class="sel" title="${t('month')}">🎨<select id="monthSel" aria-label="${t('month')}">${MONTHS.map(m=>`<option value="${m.m}" ${m.m===month?'selected':''}>${digits(m.m)} · ${esc(L(m)[0])}</option>`).join('')}</select></label>
-     <label class="sel" title="Language">${svg('globe')}<select id="langSel" aria-label="Language">${Object.entries(LANGS).map(([k,v])=>`<option value="${k}" ${k===lang?'selected':''}>${v.name}</option>`).join('')}</select></label>
-     <button class="iconb" id="modeBtn" aria-label="${mode==='dark'?t('light'):t('dark')}">${svg(mode==='dark'?'sun':'moon')}</button>
      <button class="iconb quickb" data-open="quick" aria-label="${t('quick')}">${svg('grid')}<kbd>Ctrl K</kbd></button>
      <button class="iconb burger" id="burger" aria-label="${t('menu')}">☰</button>
    </div></div>`;
@@ -226,7 +232,8 @@ function dock(){
   return `<button class="adm-float" data-open="admission"><span class="dot"></span>${svg('apply')}<b>${t('dockAdm')}</b></button>
    <div class="dock"><button data-open="map" title="${t('mapTitle')}">${svg('pin')}<span>${t('dockMap')}</span></button>
    <button data-open="contactm" title="${t('contactTitle')}">${svg('phone')}<span>${t('dockContact')}</span></button>
-   <button data-open="notice" title="${t('noticesTitle')}">${svg('bell')}<span>${t('dockNotice')}</span><i class="badge">${digits(NOTICES.filter(n=>n.pin).length||1)}</i></button></div>
+   <button data-open="notice" title="${t('noticesTitle')}">${svg('bell')}<span>${t('dockNotice')}</span><i class="badge">${digits(NOTICES.filter(n=>n.pin).length||1)}</i></button>
+   <button data-open="settings" title="${t('settings')}" class="d-set">${svg('gear')}<span>${t('settings')}</span></button></div>
    <div class="robo-hi" id="roboHi">${t('robotHi')}<button aria-label="${t('close')}">×</button></div>
    <button class="chat-fab robo-fab" id="chatFab" aria-label="${t('chatTitle')}">${ROBOT()}<span>${t('chatTitle')}</span></button>
    <div class="chat" id="chat" role="dialog" aria-label="${t('chatTitle')}"><div class="ch-h"><span class="ch-av">${ROBOT('robot sm')}</span><span class="ch-t"><b>Robo · ${t('chatTitle')}</b><small><i class="live"></i>${t('online')}</small></span><button data-close-chat aria-label="${t('close')}">×</button></div>
@@ -241,8 +248,31 @@ const MODALS = {
   admission: () => `<h3>${svg('apply')} ${t('admissionTitle')}</h3><p class="muted">${t('admissionSub')}</p>${admissionForm('admFormM')}`,
   'login-student': () => loginForm('studentLogin'),
   'login-staff': () => loginForm('staffLogin'),
+  settings: () => settingsHtml(),
   quick: () => `<input class="q-in" id="qIn" placeholder="${t('search')}" aria-label="${t('search')}"><div class="q-list" id="qList"></div>`
 };
+const BG_OPTS = ['plain','soft','dots','grid'];
+const bgName = b => t('bg'+b[0].toUpperCase()+b.slice(1));
+function settingsHtml(){
+  const sw = m => `<i style="background:linear-gradient(135deg,${m.c[0]},${m.c[1]} 60%,${m.c[2]})"></i>`;
+  return `<h3>${svg('gear')} ${t('settings')}</h3>
+   <div class="set-grp"><h4>${svg('globe')} ${t('setLang')}</h4><div class="set-row">${Object.entries(LANGS).map(([k,v])=>`<button class="set-b ${k===lang?'on':''}" data-set="lang:${k}">${v.name}</button>`).join('')}</div></div>
+   <div class="set-grp"><h4>${svg(mode==='dark'?'moon':'sun')} ${t('setMode')}</h4><div class="set-row">${[['auto',t('auto')],['light','☀️ '+t('light')],['dark','🌙 '+t('dark')]].map(([k,n])=>`<button class="set-b ${k===modeSet?'on':''}" data-set="mode:${k}">${n}</button>`).join('')}</div></div>
+   <div class="set-grp"><h4>🖼️ ${t('setBg')}</h4><div class="set-row">${BG_OPTS.map(b=>`<button class="set-b bgp bg-${b} ${b===bg?'on':''}" data-set="bg:${b}"><span></span>${bgName(b)}</button>`).join('')}</div></div>
+   <div class="set-grp"><h4>🎨 ${t('setTheme')}</h4><div class="set-months"><button class="set-m ${monthAuto?'on':''}" data-set="month:auto">✨<b>${t('thisMonth')}</b></button>${MONTHS.map(m=>`<button class="set-m ${!monthAuto&&m.m===month?'on':''}" data-set="month:${m.m}">${sw(m)}<b>${esc(L(m)[0])}</b></button>`).join('')}</div></div>`;
+}
+/* change a setting (from the panel or from the chatbot) without losing the chat or the scroll position */
+function applySetting(kind, val){
+  const chatOpen=$('#chat')?.classList.contains('open'), hist=$('#chMsgs')?.innerHTML, y=scrollY, setOpen=$('#modal').classList.contains('m-settings')&&$('#modal').classList.contains('open');
+  if(kind==='lang' && LANGS[val]){ lang=val; store.set('lang',val); }
+  if(kind==='mode'){ modeSet=val; store.set('mode',val); mode=val==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):val; }
+  if(kind==='bg' && BG_OPTS.includes(val)){ bg=val; store.set('bg',val); }
+  if(kind==='month'){ if(val==='auto'){ monthAuto=true; month=new Date().getMonth()+1; store.set('month',''); } else { monthAuto=false; month=+val; store.set('month',month); } }
+  render();
+  if(hist){ $('#chMsgs').innerHTML=hist; $('#chMsgs').scrollTop=1e6; } if(chatOpen) $('#chat').classList.add('open');
+  if(setOpen) openModal('settings');
+  scrollTo({top:y,behavior:'instant'});
+}
 function loginForm(k){
   return `<h3>${svg('user')} ${t(k)}</h3><form class="form" data-login><label class="field"><span>${t('loginId')}</span><input required autocomplete="username"></label>
     <label class="field"><span>${t('loginPass')}</span><input type="password" required autocomplete="current-password"></label>
@@ -260,7 +290,7 @@ function quickItems(){
   const items = PAGES.map(p=>({icon:PAGE_ICON[p], label:t(p), go:'#/'+p}));
   items.push({icon:'📝',label:t('ctaApply'),open:'admission'},{icon:'📍',label:t('mapTitle'),open:'map'},{icon:'☎️',label:t('contactTitle'),open:'contactm'},
     {icon:'📢',label:t('noticesTitle'),open:'notice'},{icon:'👤',label:t('studentLogin'),open:'login-student'},{icon:'👥',label:t('staffLogin'),open:'login-staff'},
-    {icon:'💬',label:t('chatTitle'),chat:true},{icon:'📊',label:'Education Board Results',href:SCHOOL.results});
+    {icon:'⚙️',label:t('settings'),open:'settings'},{icon:'💬',label:t('chatTitle'),chat:true},{icon:'📊',label:'Education Board Results',href:SCHOOL.results});
   if(typeof FLOORS!=='undefined') for(const f of FLOORS) items.push({icon:'🏢',label:`${t('campus')} · ${f.name}`,go:'#/campus',floor:f.id});
   return items;
 }
@@ -334,6 +364,32 @@ function roomAnswer(q){
   const name=r.num&&r.kind==='class'?`${r.num} (${r.opt.sub||r.label})`:`${r.label}${r.num?' '+r.num:''}`;
   return `<b>${esc(name)}</b> ${a.room} <b>${floorName(f)}</b>${r.opt.ac?` · ${a.ac}`:''}${r.ic?` · ${a.ic} ☎ ${r.ic}`:''}.<br><a href="#/campus" data-room="${esc(r.num||r.label)}">🗺️ ${a.open}</a>`;
 }
+const SET_WORDS = {
+ lang:{en:['english','ইংরেজি','ইংলিশ','انجليزي','englisch'],bn:['bangla','bengali','বাংলা','بنغالي'],ar:['arabic','আরবি','عربي','العربية','arabisch'],de:['german','deutsch','জার্মান','ألماني']},
+ mode:{dark:['dark','night','ডার্ক','রাত','অন্ধকার','ليل','داكن','dunkel','nacht'],light:['light','day mode','লাইট','দিনের','نهار','فاتح','hell','tag'],auto:['auto mode','স্বয়ংক্রিয়','تلقائي','automatisch']},
+ bg:{plain:['plain background','সাধারণ ব্যাকগ্রাউন্ড','সাদা'],soft:['soft','gradient','হালকা রঙ','গ্রেডিয়েন্ট'],dots:['dot','ডট'],grid:['grid','গ্রিড']},
+ month:{1:['january','জানুয়ারি','শীত','winter'],2:['february','ফেব্রুয়ারি','একুশ','ekushey'],3:['march','মার্চ','স্বাধীনতা','independence'],4:['april','এপ্রিল','বৈশাখ','boishakh'],
+   5:['may','মে মাস','আমের','mango'],6:['june','জুন','বর্ষা','monsoon'],7:['july','জুলাই','নদী','river'],8:['august','আগস্ট','মেঘ','cloud'],9:['september','সেপ্টেম্বর','কাশ','kash'],
+   10:['october','অক্টোবর','হেমন্ত','hemanta'],11:['november','নভেম্বর','নবান্ন','nobanno'],12:['december','ডিসেম্বর','বিজয়','victory']}
+};
+const SET_TRIG = ['setting','change','switch','make it','পরিবর্তন','বদল','করে দাও','করো','theme','থিম','language','ভাষা','mode','মোড','background','ব্যাকগ্রাউন্ড','الإعدادات','غيّر','einstellung','ändern','wechsel'];
+const chips = list => `<div class="cb-row">${list.map(([v,n])=>`<button class="cb" data-set="${v}">${n}</button>`).join('')}</div>`;
+const SET_MENU = {
+  lang:()=>chips(Object.entries(LANGS).map(([k,v])=>['lang:'+k,v.name])),
+  mode:()=>chips([['mode:light','☀️ '+t('light')],['mode:dark','🌙 '+t('dark')],['mode:auto',t('auto')]]),
+  bg:()=>chips(BG_OPTS.map(b=>['bg:'+b,bgName(b)])),
+  month:()=>chips([['month:auto','✨ '+t('thisMonth')],...MONTHS.map(m=>['month:'+m.m,L(m)[0]])])
+};
+function settingIntent(s){
+  const hasAny = ws => ws.some(w=>s.includes(w));
+  if(!hasAny(SET_TRIG)) return null;
+  for(const kind of ['lang','mode','bg','month']) for(const [val,ws] of Object.entries(SET_WORDS[kind])) if(hasAny(ws)) return {apply:[kind,val]};
+  if(hasAny(['language','ভাষা','اللغة','sprache'])) return {html:`${t('setLang')} — ${t('chooseOne')}${SET_MENU.lang()}`};
+  if(hasAny(['mode','মোড','dark','light','ডার্ক','লাইট','দিন','রাত'])) return {html:`${t('setMode')} — ${t('chooseOne')}${SET_MENU.mode()}`};
+  if(hasAny(['background','ব্যাকগ্রাউন্ড','الخلفية','hintergrund'])) return {html:`${t('setBg')} — ${t('chooseOne')}${SET_MENU.bg()}`};
+  if(hasAny(['theme','থিম','month','মাস','السمة','thema'])) return {html:`${t('setTheme')} — ${t('chooseOne')}${SET_MENU.month()}`};
+  return {html:`${t('whatChange')}${chips([['menu:lang','🌐 '+t('setLang')],['menu:month','🎨 '+t('setTheme')],['menu:mode','🌗 '+t('setMode')],['menu:bg','🖼️ '+t('setBg')]])}`};
+}
 function botAnswer(q){
   const s=q.toLowerCase(), a=A[lang], has=k=>KW[k].some(w=>s.includes(w));
   const person=TEACHERS.concat(STAFF).find(p=>{ const n=p.name.toLowerCase().replace(/^(dr|md|mst)\.?\s+/,''); return n.split(' ').filter(w=>w.length>2).some(w=>s.includes(w)) && n.split(' ').filter(w=>w.length>2&&s.includes(w)).length>=Math.min(2,n.split(' ').length); });
@@ -353,18 +409,22 @@ function botAnswer(q){
   if(has('cls')) return a.cls;
   return room || t('chatNo');
 }
+function botSay(h){ const box=$('#chMsgs'); box.insertAdjacentHTML('beforeend',`<div class="cm-row">${ROBOT('robot xs')}<div class="cm bot">${h}</div></div>`); box.scrollTop=box.scrollHeight; }
 function toggleChat(force){ const c=$('#chat'); const on=force??!c.classList.contains('open'); c.classList.toggle('open',on); if(on){ $('#chIn').focus(); $('#roboHi')?.classList.remove('show'); ses.set('roboHi','1'); } }
 function bindChat(){
   const box=$('#chMsgs'); const say=(h,who)=>{box.insertAdjacentHTML('beforeend',who==='bot'?`<div class="cm-row">${ROBOT('robot xs')}<div class="cm bot">${h}</div></div>`:`<div class="cm ${who}">${h}</div>`); box.scrollTop=box.scrollHeight;};
   say(t('chatHello'),'bot');
   const ask=q=>{ say(esc(q),'me'); box.insertAdjacentHTML('beforeend',`<div class="cm-row typing">${ROBOT('robot xs')}<div class="cm bot"><i></i><i></i><i></i></div></div>`); box.scrollTop=box.scrollHeight;
-    setTimeout(()=>{ $('.typing',box)?.remove(); say(botAnswer(q),'bot'); },650); };
+    setTimeout(()=>{ $('.typing',box)?.remove(); const si=settingIntent(q.toLowerCase());
+      if(si&&si.apply){ applySetting(...si.apply); botSay(t('done')); } else say(si?si.html:botAnswer(q),'bot'); },650); };
   const hi=$('#roboHi'); if(!ses.get('roboHi')) setTimeout(()=>hi.classList.add('show'),2600);
   hi.onclick=e=>{ hi.classList.remove('show'); ses.set('roboHi','1'); if(!e.target.closest('button')) toggleChat(true); };
   $('#chForm').onsubmit=e=>{e.preventDefault(); const v=$('#chIn').value.trim(); if(v){ask(v); $('#chIn').value='';}};
   $('.ch-q').onclick=e=>{ if(e.target.tagName==='BUTTON') ask(e.target.textContent); };
   $('#chatFab').onclick=()=>toggleChat();
   $('[data-close-chat]').onclick=()=>toggleChat(false);
+  box.addEventListener('click',e=>{ const b=e.target.closest('.cb'); if(!b) return; const [k,v]=b.dataset.set.split(':');
+    if(k==='menu') say(`${t('chooseOne')}${SET_MENU[v]()}`,'bot'); else { applySetting(k,v); botSay(t('done')); } });
   box.onclick=e=>{ const l=e.target.closest('[data-room]'); if(l){ setTimeout(()=>{const ex=$('#explorer'); if(ex) ex.contentWindow.location.hash='room='+encodeURIComponent(l.dataset.room);},500);} };
 }
 
@@ -456,9 +516,6 @@ function render(){
   $('#footer').innerHTML=footer(); $('#dockWrap').innerHTML=dock();
   if(!$('.preview-ribbon')) document.body.insertAdjacentHTML('beforeend','<div class="preview-ribbon">Preview · প্রস্তাবিত নতুন ডিজাইন</div>');
   bindForms(document); bindChat(); bindPeople(); applyTheme(); route(); countUp();
-  $('#langSel').onchange=e=>{lang=e.target.value; store.set('lang',lang); render();};
-  $('#monthSel').onchange=e=>{month=+e.target.value; store.set('month',month); render();};
-  $('#modeBtn').onclick=()=>{mode=mode==='dark'?'light':'dark'; store.set('mode',mode); render();};
   $('#burger').onclick=()=>$('#menu').classList.toggle('open');
 }
 function countUp(){
@@ -475,6 +532,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   addEventListener('hashchange',route);
   document.addEventListener('click',e=>{
     const o=e.target.closest('[data-open]'); if(o){ e.preventDefault(); openModal(o.dataset.open); return; }
+    const st=e.target.closest('.set-b,.set-m'); if(st){ const [k,v]=st.dataset.set.split(':'); applySetting(k,v); return; }
     const al=e.target.closest('[data-album]'); if(al){ openLB(lbList(+al.dataset.album),0); return; }
     const ph=e.target.closest('[data-photo]'); if(ph){ openLB(ALL_PHOTOS,+ph.dataset.photo); return; }
     const ps=e.target.closest('[data-src]'); if(ps){ openLB([{src:ps.dataset.src}],0); return; }

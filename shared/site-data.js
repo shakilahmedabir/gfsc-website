@@ -1,7 +1,8 @@
 /* =====================================================================
    GFSC — EDITABLE WEBSITE DATA (notices, news/posts, albums, teachers, staff)
    Easiest way to edit: open  admin/index.html  in the browser.
-   You can also edit this file by hand — keep the commas and quotes.
+   Teachers are shown automatically in this order: designation, then subject
+   (English, Bangla, Mathematics, ICT, then other departments).
    ===================================================================== */
 window.SITE_DATA = {
  "notices": [
@@ -694,14 +695,6 @@ window.SITE_DATA = {
    "photo": "people/md-tarif-ul-naim.jpg"
   },
   {
-   "name": "Abu Esha",
-   "desig": "Lecturer",
-   "dept": "",
-   "roles": [],
-   "qual": [],
-   "photo": "https://gfsc.odhyyon.com/Photo/gfsc/Employee/1292.png"
-  },
-  {
    "name": "Md. Tanjinul Hoque Bhuyan",
    "desig": "Lecturer",
    "dept": "Science",
@@ -796,9 +789,7 @@ window.SITE_DATA = {
    "name": "Khondoker Rahela Keya",
    "desig": "Assistant Teacher",
    "dept": "ICT",
-   "roles": [
-    "Head of ICT Department"
-   ],
+   "roles": [],
    "qual": [
     "B.Sc. M.Sc. in CSE",
     "(Jahangirnagar University)"
@@ -876,14 +867,6 @@ window.SITE_DATA = {
     "(National University)"
    ],
    "photo": "people/pritula-roy.jpg"
-  },
-  {
-   "name": "Rita Rani Debnath",
-   "desig": "Assistant Teacher",
-   "dept": "",
-   "roles": [],
-   "qual": [],
-   "photo": "https://gfsc.odhyyon.com/Photo/gfsc/Employee/1293.png"
   },
   {
    "name": "Banasree Goswami",
@@ -1007,7 +990,7 @@ window.SITE_DATA = {
   },
   {
    "name": "Jahid Hasan",
-   "desig": "Teacher",
+   "desig": "Assistant Teacher",
    "dept": "Bangla",
    "roles": [],
    "qual": [
@@ -1018,7 +1001,7 @@ window.SITE_DATA = {
   },
   {
    "name": "Shakil Ahmed",
-   "desig": "Teacher",
+   "desig": "Lecturer + IT Support",
    "dept": "ICT",
    "roles": [],
    "qual": [
@@ -1029,33 +1012,31 @@ window.SITE_DATA = {
   },
   {
    "name": "Isha Khan",
-   "desig": "Teacher",
+   "desig": "Lecturer",
    "dept": "Science",
    "roles": [],
    "qual": [
     "B.Sc. M.Sc. in Fisheries",
     "(HSTU)"
    ],
-   "photo": ""
+   "photo": "https://gfsc.odhyyon.com/Photo/gfsc/Employee/1292.png"
   },
   {
    "name": "Snigdha Rita Roy",
-   "desig": "Teacher",
-   "dept": "",
-   "roles": [
-    "Co-curricular"
-   ],
+   "desig": "Music Teacher",
+   "dept": "Music",
+   "roles": [],
    "qual": [
     "B. Mus, M. Mus",
-    "(Shangit Mohabiddaloy )"
+    "(Shangit Mohabiddaloy)"
    ],
-   "photo": "people/snigdha-rita-roy-b-mus-m-mus.jpg"
+   "photo": "https://gfsc.odhyyon.com/Photo/gfsc/Employee/1293.png"
   }
  ],
  "staff": [
   {
    "name": "Rehana Khan",
-   "desig": "P.R.O (part time)",
+   "desig": "P.R.O",
    "dept": "",
    "roles": [
     "Co-curricular",
@@ -1066,7 +1047,7 @@ window.SITE_DATA = {
   },
   {
    "name": "Ashim Kumar Pandit",
-   "desig": "Assistant Accountant",
+   "desig": "Admin",
    "dept": "",
    "roles": [],
    "qual": [],
@@ -1090,7 +1071,7 @@ window.SITE_DATA = {
   },
   {
    "name": "Habibur Bashar",
-   "desig": "Office Executive",
+   "desig": "Librarian",
    "dept": "",
    "roles": [],
    "qual": [],
@@ -1131,6 +1112,38 @@ window.SITE_DATA = {
   {
    "name": "Runa",
    "desig": "Aya",
+   "dept": "",
+   "roles": [],
+   "qual": [],
+   "photo": ""
+  },
+  {
+   "name": "Momotaj Sharker",
+   "desig": "Account Officer",
+   "dept": "",
+   "roles": [],
+   "qual": [],
+   "photo": ""
+  },
+  {
+   "name": "Md. Ashraful Islam",
+   "desig": "Office Executive",
+   "dept": "",
+   "roles": [],
+   "qual": [],
+   "photo": ""
+  },
+  {
+   "name": "Md. Rabbi",
+   "desig": "Driver",
+   "dept": "",
+   "roles": [],
+   "qual": [],
+   "photo": ""
+  },
+  {
+   "name": "Joynal",
+   "desig": "Asst. Supervisor",
    "dept": "",
    "roles": [],
    "qual": [],

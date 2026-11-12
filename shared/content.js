@@ -51,7 +51,7 @@ const UI = {
   loginNote:'The login portal will be connected to the school’s student/staff system (ODHYYON).',
   chatTitle:'Ask GFSC',chatHello:'Hi! 👋 I am the GFSC assistant. Ask me about admission, contact, classes, results or any room in the building.',
   chatPh:'Type your question…',chatNo:'Sorry, I don’t know that yet. Please call 01786-500930 or use the Contact button.',
-  chatQ:['How to get admission?','Phone number','Where is the Computer Lab?','Which classes are taught?','Where is the school?'],
+  chatQ:['Change settings','How to get admission?','Phone number','Where is the Computer Lab?','Which classes are taught?','Where is the school?'],
   readMore:'Read more',viewAll:'View all',pinned:'Important',newTag:'New',soon:'Coming soon',
   msgSoon:'The full message will be published soon.',followUs:'Follow us',quickLinks:'Quick links',rights:'All rights reserved.',
   month:'Theme of the month',light:'Light',dark:'Dark',callUs:'Call us',emailUs:'Email us',openMaps:'Open in Google Maps',
@@ -79,7 +79,7 @@ const UI = {
   loginNote:'লগইন পোর্টালটি স্কুলের শিক্ষার্থী/স্টাফ সিস্টেমের (ODHYYON) সাথে যুক্ত করা হবে।',
   chatTitle:'GFSC-কে জিজ্ঞেস করুন',chatHello:'হ্যালো! 👋 আমি GFSC সহকারী। ভর্তি, যোগাযোগ, শ্রেণি, ফলাফল বা ভবনের যেকোনো রুম সম্পর্কে জিজ্ঞেস করুন।',
   chatPh:'আপনার প্রশ্ন লিখুন…',chatNo:'দুঃখিত, এটি এখনো জানি না। ০১৭৮৬-৫০০৯৩০ নম্বরে ফোন করুন বা যোগাযোগ বাটন ব্যবহার করুন।',
-  chatQ:['ভর্তি কীভাবে হবে?','ফোন নম্বর','কম্পিউটার ল্যাব কোথায়?','কোন কোন শ্রেণি আছে?','স্কুলটি কোথায়?'],
+  chatQ:['সেটিং পরিবর্তন','ভর্তি কীভাবে হবে?','ফোন নম্বর','কম্পিউটার ল্যাব কোথায়?','কোন কোন শ্রেণি আছে?','স্কুলটি কোথায়?'],
   readMore:'বিস্তারিত',viewAll:'সব দেখুন',pinned:'জরুরি',newTag:'নতুন',soon:'শীঘ্রই আসছে',
   msgSoon:'সম্পূর্ণ বাণী শীঘ্রই প্রকাশ করা হবে।',followUs:'আমাদের অনুসরণ করুন',quickLinks:'দরকারি লিংক',rights:'সর্বস্বত্ব সংরক্ষিত।',
   month:'এ মাসের থিম',light:'লাইট',dark:'ডার্ক',callUs:'ফোন করুন',emailUs:'ইমেইল করুন',openMaps:'গুগল ম্যাপে খুলুন',
@@ -106,7 +106,7 @@ const UI = {
   loginNote:'سيتم ربط بوابة الدخول بنظام الطلاب والموظفين في المدرسة (ODHYYON).',
   chatTitle:'اسأل GFSC',chatHello:'مرحبًا! 👋 أنا مساعد GFSC. اسألني عن القبول أو التواصل أو الصفوف أو النتائج أو أي غرفة في المبنى.',
   chatPh:'اكتب سؤالك…',chatNo:'عذرًا، لا أعرف ذلك بعد. يرجى الاتصال على 01786-500930 أو استخدام زر الاتصال.',
-  chatQ:['كيف أقدّم للقبول؟','رقم الهاتف','أين مختبر الحاسوب؟','ما الصفوف المتاحة؟','أين تقع المدرسة؟'],
+  chatQ:['غيّر الإعدادات','كيف أقدّم للقبول؟','رقم الهاتف','أين مختبر الحاسوب؟','ما الصفوف المتاحة؟','أين تقع المدرسة؟'],
   readMore:'اقرأ المزيد',viewAll:'عرض الكل',pinned:'مهم',newTag:'جديد',soon:'قريبًا',
   msgSoon:'ستُنشر الكلمة كاملة قريبًا.',followUs:'تابعونا',quickLinks:'روابط سريعة',rights:'جميع الحقوق محفوظة.',
   month:'سمة الشهر',light:'فاتح',dark:'داكن',callUs:'اتصل بنا',emailUs:'راسلنا',openMaps:'افتح في خرائط Google',
@@ -133,7 +133,7 @@ const UI = {
   loginNote:'Das Login-Portal wird mit dem Schüler- und Personalsystem der Schule (ODHYYON) verbunden.',
   chatTitle:'Frag GFSC',chatHello:'Hallo! 👋 Ich bin der GFSC-Assistent. Fragen Sie nach Aufnahme, Kontakt, Klassen, Ergebnissen oder einem Raum im Gebäude.',
   chatPh:'Ihre Frage…',chatNo:'Das weiß ich leider noch nicht. Bitte rufen Sie 01786-500930 an oder nutzen Sie den Kontakt-Button.',
-  chatQ:['Wie funktioniert die Aufnahme?','Telefonnummer','Wo ist das Computerlabor?','Welche Klassen gibt es?','Wo ist die Schule?'],
+  chatQ:['Einstellungen ändern','Wie funktioniert die Aufnahme?','Telefonnummer','Wo ist das Computerlabor?','Welche Klassen gibt es?','Wo ist die Schule?'],
   readMore:'Mehr lesen',viewAll:'Alle ansehen',pinned:'Wichtig',newTag:'Neu',soon:'Demnächst',
   msgSoon:'Die vollständige Botschaft wird bald veröffentlicht.',followUs:'Folgen Sie uns',quickLinks:'Schnelllinks',rights:'Alle Rechte vorbehalten.',
   month:'Thema des Monats',light:'Hell',dark:'Dunkel',callUs:'Anrufen',emailUs:'E-Mail',openMaps:'In Google Maps öffnen',
@@ -242,4 +242,18 @@ Object.assign(UI.de,{people:'Lehrkräfte',teachersTitle:'Unsere Lehrkräfte',tea
   news:'News',status:'Status',post:'Beitrag',noResult:'Keine Treffer.'});
 const DEPT = {English:{bn:'ইংরেজি',ar:'اللغة الإنجليزية',de:'Englisch'},Bangla:{bn:'বাংলা',ar:'اللغة البنغالية',de:'Bangla'},ICT:{bn:'আইসিটি',ar:'تقنية المعلومات',de:'Informatik'},
   Mathematics:{bn:'গণিত',ar:'الرياضيات',de:'Mathematik'},Science:{bn:'বিজ্ঞান',ar:'العلوم',de:'Naturwissenschaften'},'Business Studies':{bn:'ব্যবসায় শিক্ষা',ar:'الدراسات التجارية',de:'Wirtschaft'},
-  Humanities:{bn:'মানবিক',ar:'العلوم الإنسانية',de:'Geisteswissenschaften'}};
+  Humanities:{bn:'মানবিক',ar:'العلوم الإنسانية',de:'Geisteswissenschaften'},Music:{bn:'সংগীত',ar:'الموسيقى',de:'Musik'}};
+
+/* ---------- settings panel + chatbot settings ---------- */
+Object.assign(UI.en,{settings:'Settings',setLang:'Language',setTheme:'Monthly theme',setMode:'Day / Night',setBg:'Background',auto:'Auto',
+  bgPlain:'Plain',bgSoft:'Soft colour',bgDots:'Dots',bgGrid:'Grid',whatChange:'What would you like to change?',done:'Done! ✅',chooseOne:'Choose one:',
+  thisMonth:'This month (auto)'});
+Object.assign(UI.bn,{settings:'সেটিংস',setLang:'ভাষা',setTheme:'মাসের থিম',setMode:'দিন / রাত',setBg:'ব্যাকগ্রাউন্ড',auto:'স্বয়ংক্রিয়',
+  bgPlain:'সাধারণ',bgSoft:'হালকা রঙ',bgDots:'ডট',bgGrid:'গ্রিড',whatChange:'কোনটি পরিবর্তন করতে চান?',done:'হয়ে গেছে! ✅',chooseOne:'একটি বেছে নিন:',
+  thisMonth:'এই মাস (স্বয়ংক্রিয়)'});
+Object.assign(UI.ar,{settings:'الإعدادات',setLang:'اللغة',setTheme:'سمة الشهر',setMode:'نهار / ليل',setBg:'الخلفية',auto:'تلقائي',
+  bgPlain:'عادية',bgSoft:'لون ناعم',bgDots:'نقاط',bgGrid:'شبكة',whatChange:'ماذا تريد أن تغيّر؟',done:'تم! ✅',chooseOne:'اختر واحدًا:',
+  thisMonth:'هذا الشهر (تلقائي)'});
+Object.assign(UI.de,{settings:'Einstellungen',setLang:'Sprache',setTheme:'Monatsthema',setMode:'Tag / Nacht',setBg:'Hintergrund',auto:'Automatisch',
+  bgPlain:'Schlicht',bgSoft:'Sanfte Farbe',bgDots:'Punkte',bgGrid:'Raster',whatChange:'Was möchten Sie ändern?',done:'Erledigt! ✅',chooseOne:'Bitte wählen:',
+  thisMonth:'Dieser Monat (automatisch)'});
