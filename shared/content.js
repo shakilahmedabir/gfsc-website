@@ -5,7 +5,7 @@
    Items marked  // TODO(fill)  are waiting for real information (see docs/02_Content_Requirements).
    ===================================================================== */
 const LANGS = {
-  bn: {name:'বাংলা', dir:'ltr', font:'"Hind Siliguri"'},
+  bn: {name:'বাংলা', dir:'ltr', font:'"Noto Sans Bengali","Hind Siliguri"'},
   en: {name:'English', dir:'ltr', font:'"Plus Jakarta Sans"'},
   ar: {name:'العربية', dir:'rtl', font:'"Cairo"'},
   de: {name:'Deutsch', dir:'ltr', font:'"Plus Jakarta Sans"'}
@@ -183,9 +183,9 @@ const CONTENT = {
   {i:'🛗',en:'Lift & safe water on every floor',bn:'লিফট ও প্রতি তলায় নিরাপদ পানি',ar:'مصعد ومياه آمنة في كل طابق',de:'Aufzug & Trinkwasser auf jeder Etage'}
  ],
  leaders:[ // TODO(fill): photos are from gfsc.edu.bd, messages still missing
-  {name:{en:'Shamsul Alam',bn:'শামসুল আলম',ar:'شمس العالم',de:'Shamsul Alam'},role:{en:'Chairman & Founder',bn:'চেয়ারম্যান ও প্রতিষ্ঠাতা',ar:'رئيس مجلس الإدارة والمؤسس',de:'Vorsitzender & Gründer'},img:'308/1-1.jpg'},
-  {name:{en:'Dr. Rehana Parvin',bn:'ড. রেহানা পারভীন',ar:'د. ريحانة برفين',de:'Dr. Rehana Parvin'},role:{en:'Principal',bn:'অধ্যক্ষ',ar:'المديرة',de:'Schulleiterin'},img:'309/index.jpg'},
-  {name:{en:'Prof. Abdur Rahim Akon',bn:'প্রফেসর আব্দুর রহিম আকন',ar:'البروفيسور عبد الرحيم آكون',de:'Prof. Abdur Rahim Akon'},role:{en:'Advisor Principal',bn:'উপদেষ্টা অধ্যক্ষ',ar:'المدير المستشار',de:'Beratender Schulleiter'},img:'370/download.jpg'}
+  {name:{en:'Shamsul Alam',bn:'শামসুল আলম',ar:'شمس العالم',de:'Shamsul Alam'},role:{en:'Chairman & Founder',bn:'চেয়ারম্যান ও প্রতিষ্ঠাতা',ar:'رئيس مجلس الإدارة والمؤسس',de:'Vorsitzender & Gründer'},img:'308/1-1.jpg',photo:'people/leader-shamsul-alam.jpg'},
+  {name:{en:'Dr. Rehana Parvin',bn:'ড. রেহানা পারভীন',ar:'د. ريحانة برفين',de:'Dr. Rehana Parvin'},role:{en:'Principal',bn:'অধ্যক্ষ',ar:'المديرة',de:'Schulleiterin'},img:'309/index.jpg',photo:'people/leader-rehana-parvin.jpg'},
+  {name:{en:'Prof. Abdur Rahim Akon',bn:'প্রফেসর আব্দুর রহিম আকন',ar:'البروفيسور عبد الرحيم آكون',de:'Prof. Abdur Rahim Akon'},role:{en:'Advisor Principal',bn:'উপদেষ্টা অধ্যক্ষ',ar:'المدير المستشار',de:'Beratender Schulleiter'},img:'370/download.jpg',photo:'people/leader-abdur-rahim-akon.jpg'}
  ],
  // NOTICES — newest first. pin:true = shown in the popup when the website opens.
  notices:[
@@ -257,3 +257,8 @@ Object.assign(UI.ar,{settings:'الإعدادات',setLang:'اللغة',setTheme
 Object.assign(UI.de,{settings:'Einstellungen',setLang:'Sprache',setTheme:'Monatsthema',setMode:'Tag / Nacht',setBg:'Hintergrund',auto:'Automatisch',
   bgPlain:'Schlicht',bgSoft:'Sanfte Farbe',bgDots:'Punkte',bgGrid:'Raster',whatChange:'Was möchten Sie ändern?',done:'Erledigt! ✅',chooseOne:'Bitte wählen:',
   thisMonth:'Dieser Monat (automatisch)'});
+
+Object.assign(UI.en,{bnNotices:'Latest notices, news and updates from the campus.',bnGallery:'Moments from classrooms, festivals and celebrations.',bnContact:'We are happy to help — call, write or visit us.',bnAcademics:'One school from Play Group to Class XII.'});
+Object.assign(UI.bn,{bnNotices:'ক্যাম্পাসের সর্বশেষ নোটিশ, খবর ও আপডেট।',bnGallery:'ক্লাসরুম, উৎসব ও উদযাপনের মুহূর্তগুলো।',bnContact:'আমরা সাহায্য করতে প্রস্তুত — ফোন করুন, লিখুন বা চলে আসুন।',bnAcademics:'প্লে গ্রুপ থেকে দ্বাদশ শ্রেণি — একটি স্কুল।'});
+Object.assign(UI.ar,{bnNotices:'أحدث الإعلانات والأخبار من الحرم.',bnGallery:'لحظات من الفصول والمهرجانات والاحتفالات.',bnContact:'يسعدنا مساعدتك — اتصل أو اكتب أو زرنا.',bnAcademics:'مدرسة واحدة من مرحلة اللعب حتى الصف الثاني عشر.'});
+Object.assign(UI.de,{bnNotices:'Neueste Aushänge, Nachrichten und Updates vom Campus.',bnGallery:'Momente aus Unterricht, Festen und Feiern.',bnContact:'Wir helfen gern — anrufen, schreiben oder vorbeikommen.',bnAcademics:'Eine Schule von der Spielgruppe bis Klasse 12.'});

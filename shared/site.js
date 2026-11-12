@@ -126,7 +126,7 @@ const noticeList = (n) => `<ul class="notices">${sortedNotices().slice(0,n).map(
 const albumCard = (a,i) => `<button class="card ev album" data-album="${i}"><span class="cover"><img src="${a.photos[0]}" alt="" loading="lazy"><i>🖼️ ${digits(a.photos.length)} ${t('photos')}</i></span><span class="ev-t">${a.year?`<small>${digits(a.year)}</small>`:''}<b>${esc(L(a.title))}</b></span></button>`;
 const eventsHtml = (n=4) => ALBUMS.length ? `<div class="cards events">${ALBUMS.slice(0,n).map(albumCard).join('')}</div>`
   : `<div class="cards events">${CONTENT.events.map(e=>`<article class="card ev"><img src="${img(e.img)}" alt="" loading="lazy"><h3>${esc(L(e))}</h3></article>`).join('')}</div>`;
-const leadersHtml = () => `<div class="cards leaders">${CONTENT.leaders.map(p=>`<article class="card ld"><img src="${img(p.img)}" alt="${esc(L(p.name))}" loading="lazy"><h3>${esc(L(p.name))}</h3><small>${esc(L(p.role))}</small><p class="muted">${t('msgSoon')}</p></article>`).join('')}</div>`;
+const leadersHtml = () => `<div class="cards leaders">${CONTENT.leaders.map(p=>`<article class="card ld"><img src="${p.photo?'../shared/'+p.photo:img(p.img)}" alt="${esc(L(p.name))}" loading="lazy"><h3>${esc(L(p.name))}</h3><small>${esc(L(p.role))}</small><p class="muted">${t('msgSoon')}</p></article>`).join('')}</div>`;
 const facHtml = () => `<div class="chips-grid">${CONTENT.facilities.map(f=>`<div class="fac"><span>${f.i}</span>${esc(L(f))}</div>`).join('')}</div>`;
 const galleryHtml = (n) => ALL_PHOTOS.length
   ? `<div class="gallery">${ALL_PHOTOS.slice(0,n).map((p,k)=>`<button class="ph" data-photo="${k}" aria-label="${esc(L(ALBUMS[p.ai].title))}"><img src="${p.src}" alt="" loading="lazy"></button>`).join('')}</div>`
@@ -157,11 +157,14 @@ const mvvHtml = () => typeof GOALS==='undefined' ? `<p>${esc(L(CONTENT.mission))
    <article class="card mv"><span class="mv-i">🎯</span><h3>${t('mission')}</h3><p>${esc(L(GOALS.mission))}</p></article>
    <article class="card mv"><span class="mv-i">🔭</span><h3>${t('vision')}</h3><p>${esc(L(GOALS.vision))}</p></article>
    <article class="card mv"><span class="mv-i">💎</span><h3>${t('values')}</h3><div class="vals">${GOALS.values.map(v=>`<span>${esc(L(v))}</span>`).join('')}</div></article></div>`;
-const sdgGrid = (small) => `<div class="sdgs ${small?'small':''}">${GOALS.sdgs.map(([n,col,ic,name,act])=>`<article class="sdg" style="--c:${col}"><b>${digits(n)}</b><span class="sdg-ic">${ic}</span><h3>${esc(L(name))}</h3>${small?'':`<p><em>${t('act')}:</em> ${esc(L(act))}</p>`}</article>`).join('')}</div>`;
+const sdgIcon = n => `../shared/sdg/sdg-${String(n).padStart(2,'0')}.jpg`;
+const sdgGrid = (small) => small
+  ? `<div class="sdgs small">${GOALS.sdgs.map(([n,col,ic,name])=>`<img class="sdg-logo" src="${sdgIcon(n)}" alt="SDG ${n}: ${esc(L(name))}" title="${esc(L(name))}" loading="lazy">`).join('')}</div>`
+  : `<div class="sdgs">${GOALS.sdgs.map(([n,col,ic,name,act])=>`<article class="sdg" style="--c:${col}"><img src="${sdgIcon(n)}" alt="SDG ${n}" loading="lazy"><div><h3><b>${digits(n)}</b> ${esc(L(name))}</h3><p><em>${t('act')}:</em> ${esc(L(act))}</p></div></article>`).join('')}</div>`;
 function goalsHtml(){
   if(typeof GOALS==='undefined') return '';
   return sec('gl1',t('title'),t('sub'),sdgGrid(false))
-   + sec('gl2',t('sdg4'),'',`<div class="sdg4"><div class="sdg4-badge">4<small>${esc(L(GOALS.sdgs[3][3]))}</small></div><ul class="ticks">${GOALS.sdg4.map(x=>`<li>${esc(L(x))}</li>`).join('')}</ul></div>`,'alt')
+   + sec('gl2',t('sdg4'),'',`<div class="sdg4"><img class="sdg4-badge" src="${sdgIcon(4)}" alt="SDG 4: ${esc(L(GOALS.sdgs[3][3]))}"><ul class="ticks">${GOALS.sdg4.map(x=>`<li>${esc(L(x))}</li>`).join('')}</ul></div>`,'alt')
    + sec('gl3',t('skills'),'',`<div class="chips-grid">${GOALS.skills.map(([i,x])=>`<div class="fac"><span>${i}</span>${esc(L(x))}</div>`).join('')}</div>`)
    + sec('gl4',t('careers'),'',`<div class="cards careers">${GOALS.careers.map(c=>`<article class="card career" style="--c:${c.c}"><h3>${esc(L(c.g))}</h3><p>${esc(L(c.jobs)).split(' · ').map(j=>`<span>${j}</span>`).join('')}</p></article>`).join('')}</div>`,'alt')
    + sec('gl5',t('compete'),'',`<div class="chips-grid">${GOALS.programs.map(([i,x])=>`<div class="fac"><span>${i}</span>${esc(L(x))}</div>`).join('')}</div>`)
@@ -187,7 +190,14 @@ function admissionForm(id){
    <button class="btn btn-a wide" type="submit">${t('fSubmit')}</button><p class="ok" hidden>${t('fSent')}</p></form>`;
 }
 
+const pageHero = (title, sub) => `<section class="hero page-hero"><canvas class="fx" aria-hidden="true"></canvas><div class="hero-in"><p class="kicker">${t('heroKicker')}</p><h1>${title}</h1>${sub?`<p class="lead">${sub}</p>`:''}<div class="month-chip">🎨 ${esc(L(MONTHS[month-1])[0])} — <span>${esc(L(MONTHS[month-1])[1])}</span></div></div></section>`;
 function pages(){
+  const P = pagesInner(), sub = {about:t('whySub'),academics:t('bnAcademics'),goals:typeof GOALS!=='undefined'?GOALS.ui[lang].teaser:'',people:t('teachersSub'),
+    admission:t('admissionSub'),notices:t('bnNotices'),gallery:t('bnGallery'),campus:t('campusSub'),contact:t('bnContact')};
+  for(const k of Object.keys(P)) if(k!=='home') P[k] = pageHero(k==='goals'&&typeof GOALS!=='undefined'?GOALS.ui[lang].goals:t(k), sub[k]) + P[k];
+  return P;
+}
+function pagesInner(){
   return {
    home: `<section class="hero" id="hero"><canvas class="fx" aria-hidden="true"></canvas>${hero()}</section>
      ${V==='bento'?'':`<div class="wrap">${statsHtml()}</div>`}
@@ -201,7 +211,7 @@ function pages(){
      ${sec('ld',t('leadersTitle'),'',leadersHtml(),'alt')}
      ${sec('gl',t('galleryTitle'),'',galleryHtml(8)+`<a class="more" href="#/gallery">${t('viewAll')} →</a>`)}
      ${sec('lk',t('resultsTitle'),'',linksHtml(),'alt')}`,
-   about: sec('ab',t('about'),'',`<div class="prose"><p>${esc(L(CONTENT.about))}</p></div>${mvvHtml()}<div class="stats-plain">${statsHtml()}</div>`)+sec('ld2',t('leadersTitle'),'',leadersHtml(),'alt')+sec('fc',t('facTitle'),'',facHtml()),
+   about: sec('ab','','',`<div class="prose"><p>${esc(L(CONTENT.about))}</p></div>${mvvHtml()}<div class="stats-plain">${statsHtml()}</div>`)+sec('ld2',t('leadersTitle'),'',leadersHtml(),'alt')+sec('fc',t('facTitle'),'',facHtml()),
    people: sec('ld3',t('leadersShort'),'',leadersHtml())+sec('tc',t('teachersTitle'),t('teachersSub'),peopleHtml(),'alt')+(STAFF.length?sec('sf',t('staffTitle'),'',`<div class="people staff">${STAFF.map(personCard).join('')}</div>`):''),
    goals: goalsHtml(),
    academics: sec('jr',t('journeyTitle'),t('journeySub'),journeyHtml())+sec('fc2',t('facTitle'),'',facHtml(),'alt')+sec('lk2',t('resultsTitle'),'',linksHtml()),
@@ -468,7 +478,7 @@ function bindPeople(){
 let fxRaf=0;
 function startFx(type){
   cancelAnimationFrame(fxRaf);
-  const cv=$('canvas.fx'); if(!cv) return;
+  const cv=$('main > .page:not([hidden]) canvas.fx'); if(!cv) return;
   const ctx=cv.getContext('2d'); const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fit=()=>{ cv.width=cv.offsetWidth*devicePixelRatio; cv.height=cv.offsetHeight*devicePixelRatio; }; fit(); addEventListener('resize',fit);
   const W=()=>cv.width, H=()=>cv.height, dpr=devicePixelRatio, th=MONTHS[month-1];
@@ -502,7 +512,7 @@ function route(){
   $$('main > .page').forEach(el=>el.hidden=el.dataset.page!==page);
   $$('#menu a').forEach(a=>a.classList.toggle('on',a.dataset.p===page));
   document.body.dataset.page=page; $('#menu').classList.remove('open');
-  if(page==='home') startFx(MONTHS[month-1].fx);
+  startFx(MONTHS[month-1].fx);
   scrollTo({top:0,behavior:'instant'});
 }
 
